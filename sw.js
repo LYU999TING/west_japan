@@ -1,6 +1,6 @@
 /* 西国航路 · Service Worker：核心文件预缓存 + CDN/天气运行时缓存 */
-const CORE_CACHE = 'atlas-core-v1';
-const RUNTIME_CACHE = 'atlas-runtime-v1';
+const CORE_CACHE = 'atlas-core-v2';
+const RUNTIME_CACHE = 'atlas-runtime-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png'];
 
 self.addEventListener('install', e => {
@@ -40,8 +40,8 @@ self.addEventListener('fetch', e => {
     );
     return;
   }
-  // CDN（three / lenis / qrcode / 字体）：stale-while-revalidate
-  if (/(cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/.test(url.hostname)) {
+  // CDN（leaflet / qrcode / 字体）+ 地图瓦片：stale-while-revalidate
+  if (/(unpkg\.com|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|basemaps\.cartocdn\.com)$/.test(url.hostname)) {
     e.respondWith(
       caches.match(req).then(hit => {
         const refresh = fetch(req).then(res => {

@@ -12,8 +12,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
@@ -32,7 +32,6 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-html.lenis-on{scroll-behavior:auto}
 body{margin:0;font-family:var(--sans);background:var(--paper);background-image:var(--contour-light);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 button,input{font:inherit}
 a{color:inherit;text-decoration:none}
@@ -136,8 +135,6 @@ a{color:inherit;text-decoration:none}
 .atlas-board{position:relative}
 .atlas-map{position:relative;height:clamp(560px,74vh,780px);background:var(--night);border:1px solid var(--nightline);border-radius:18px;overflow:hidden}
 .atlas-map:before{content:"";position:absolute;inset:0;background-image:var(--contour-dark);opacity:.5;pointer-events:none;z-index:0}
-#atlasCanvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;cursor:grab;z-index:1}
-#atlasCanvas:active{cursor:grabbing}
 .fallback-map{display:none;position:absolute;inset:0;place-items:center;text-align:center;color:var(--mist);padding:40px;z-index:2}
 .fallback-map h3{font-family:var(--serif);color:#F4EEE1}
 .atlas-top{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:12px;z-index:5;pointer-events:none;flex-wrap:wrap}
@@ -376,7 +373,7 @@ a{color:inherit;text-decoration:none}
 <div class="panel overview-card"><div class="kicker">Strategy</div><div class="big">轻装跳岛</div><p>大箱留城市，小包上岛和骑行。</p></div>
 <div class="panel overview-card"><div class="kicker">Core</div><div class="big">艺术 + 温泉</div><p>直岛、丰岛、宫岛、由布院、长崎。</p></div>
 <div class="panel overview-card"><div class="kicker">Mode</div><div class="big">主线 + 可选</div><p>熊本作为现场可切换模块。</p></div>
-</div></div></section><section class="section" id="route"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 01</span><h2 class="section-title">航线总览</h2><p class="section-sub">每一站一枚专属符号。虚线为濑户内海航路，绿段为九州主线，朱红圆环为高风险或潮汐窗口节点，虚线圆为熊本可选模块。</p></div></div><div class="panel route"><div class="station "><div><div class="st-ico" data-icon="city"></div><div class="station-name">大阪</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="castle"></div><div class="station-name">姬路</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="peach"></div><div class="station-name">冈山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="pumpkin"></div><div class="station-name">直岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="museum"></div><div class="station-name">丰岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="olive"></div><div class="station-name">小豆岛</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="harbor"></div><div class="station-name">高松</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="onsen_house"></div><div class="station-name">松山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="bridge"></div><div class="station-name">今治</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="bike"></div><div class="station-name">尾道</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="momiji"></div><div class="station-name">广岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="torii"></div><div class="station-name">宫岛</div></div><div class="rail"></div></div><div class="station hub"><div><div class="st-ico" data-icon="train"></div><div class="station-name">博多</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="mountain"></div><div class="station-name">由布院</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="steam"></div><div class="station-name">别府</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="church"></div><div class="station-name">长崎</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="tower"></div><div class="station-name">福冈</div></div><div class="rail"></div></div><div class="station optional"><div><div class="st-ico" data-icon="castle_dark"></div><div class="station-name">熊本可选</div></div></div></div></div></section><section class="section" id="atlas"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 02</span><h2 class="section-title">西日本立体海图</h2><p class="section-sub">电影级海图：等深线海面持续呼吸，航路以发光航迹逐段画出，每一站立着微缩地标。拖拽旋转视角、滚轮缩放，点击「起航」进入低空巡航镜头。</p></div></div><div class="atlas-shell"><div class="atlas-board"><div class="atlas-map"><canvas id="atlasCanvas"></canvas><div class="fallback-map" id="fallbackMap"><div><h3>3D地图资源未能加载</h3><p>如果离线打开且无法载入 Three.js，请联网刷新，或继续查看下方完整行程。</p></div></div><div class="atlas-top"><div class="modebar"><button class="mode-btn active" data-mode="route">路线模式</button><button class="mode-btn" data-mode="risk">风险模式</button><button class="mode-btn" data-mode="luggage">行李模式</button><button class="mode-btn" id="kumamotoToggle">熊本支线 OFF</button></div><div class="modebar"><button class="mini-btn" id="playRoute">起航 · 播放旅程</button><button class="mini-btn" id="resetCamera">回到锚点</button></div></div><div class="legend"><div><i class="c-blue"></i>濑户内海主线</div><div><i class="c-green"></i>九州主线</div><div><i class="c-gold"></i>高风险 · 潮汐窗口</div><div><i class="c-gray"></i>熊本可选支线</div></div><div class="atlas-note"><b>海图操作</b>拖拽旋转 · 滚轮缩放 · 点击节点选中当天。起航模式沿航线低空巡航，任意操作即可中断。</div><div class="atlas-chip"><b>三种模式</b>风险模式将高风险日染为鸟居朱；行李模式区分轻装、寄存与禁止大箱；熊本支线可随时挂载。</div><div id="flyCaption"><div class="fk"></div><div class="ft"></div></div><div class="day-rail" id="dayRail"></div></div><aside class="atlas-panel"><div class="panel-cover"></div><div class="panel-visual"><h4>Selected destination</h4><div class="panel-landmark"><div class="panel-landmark-badge" id="panelLandmarkBadge"></div><div class="panel-landmark-copy"><b id="panelLandmarkTitle">西日本旅行地图</b><span id="panelLandmarkText">点击左侧节点，查看当天的主题、时间线、交通、风险与行李策略。</span></div></div></div><div class="panel-body"><div class="panel-kicker" id="panelKicker"></div><h3 class="panel-title" id="panelTitle"></h3><p class="panel-summary" id="panelSummary"></p><div class="badge-row" id="panelBadges"></div><div class="wx-row" id="panelWeather"></div><div class="tabbar"><button class="tab-btn active" data-tab="timeline">时间线</button><button class="tab-btn" data-tab="transport">交通</button><button class="tab-btn" data-tab="risk">风险</button><button class="tab-btn" data-tab="luggage">行李</button></div><div class="tab-pane active" id="tab-timeline"></div><div class="tab-pane" id="tab-transport"></div><div class="tab-pane" id="tab-risk"></div><div class="tab-pane" id="tab-luggage"></div><div class="panel-actions"><button class="primary-btn" id="jumpDay">查看完整日程</button><button class="ghost-btn" id="openAllNearby">展开全部行程</button></div></div></aside></div></div></div></section>
+</div></div></section><section class="section" id="route"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 01</span><h2 class="section-title">航线总览</h2><p class="section-sub">每一站一枚专属符号。虚线为濑户内海航路，绿段为九州主线，朱红圆环为高风险或潮汐窗口节点，虚线圆为熊本可选模块。</p></div></div><div class="panel route"><div class="station "><div><div class="st-ico" data-icon="city"></div><div class="station-name">大阪</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="castle"></div><div class="station-name">姬路</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="peach"></div><div class="station-name">冈山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="pumpkin"></div><div class="station-name">直岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="museum"></div><div class="station-name">丰岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="olive"></div><div class="station-name">小豆岛</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="harbor"></div><div class="station-name">高松</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="onsen_house"></div><div class="station-name">松山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="bridge"></div><div class="station-name">今治</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="bike"></div><div class="station-name">尾道</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="momiji"></div><div class="station-name">广岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="torii"></div><div class="station-name">宫岛</div></div><div class="rail"></div></div><div class="station hub"><div><div class="st-ico" data-icon="train"></div><div class="station-name">博多</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="mountain"></div><div class="station-name">由布院</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="steam"></div><div class="station-name">别府</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="church"></div><div class="station-name">长崎</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="tower"></div><div class="station-name">福冈</div></div><div class="rail"></div></div><div class="station optional"><div><div class="st-ico" data-icon="castle_dark"></div><div class="station-name">熊本可选</div></div></div></div></div></section><section class="section" id="atlas"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 02</span><h2 class="section-title">西日本立体海图</h2><p class="section-sub">真实西日本地图：每一站一枚专属可爱符号，落在它真正所在的地点上。虚线为濑户内海航路，绿段为九州主线，朱红节点为高风险或潮汐窗口日。拖拽平移、滚轮缩放，点击节点选中当天，或点「起航」沿航线依次巡览。</p></div></div><div class="atlas-shell"><div class="atlas-board"><div class="atlas-map"><div id="atlasLeaflet"></div><div class="fallback-map" id="fallbackMap"><div><h3>地图资源未能加载</h3><p>地图底图需要联网加载。若当前离线，请联网刷新，或直接查看下方完整行程——行程内容已离线缓存，可随时打开。</p></div></div><div class="atlas-top"><div class="modebar"><button class="mode-btn active" data-mode="route">路线模式</button><button class="mode-btn" data-mode="risk">风险模式</button><button class="mode-btn" data-mode="luggage">行李模式</button><button class="mode-btn" id="kumamotoToggle">熊本支线 OFF</button></div><div class="modebar"><button class="mini-btn" id="playRoute">起航 · 播放旅程</button><button class="mini-btn" id="resetCamera">回到锚点</button></div></div><div class="legend"><div><i class="c-blue"></i>濑户内海主线</div><div><i class="c-green"></i>九州主线</div><div><i class="c-gold"></i>高风险 · 潮汐窗口</div><div><i class="c-gray"></i>熊本可选支线</div></div><div class="atlas-note"><b>地图操作</b>拖拽平移 · 点一下地图后可滚轮缩放 · 点击可爱节点选中当天。起航模式沿航线依次飞览，任意操作即可中断。</div><div class="atlas-chip"><b>三种模式</b>风险模式将高风险日染为鸟居朱；行李模式区分轻装、寄存与禁止大箱；熊本支线可随时挂载。</div><div id="flyCaption"><div class="fk"></div><div class="ft"></div></div><div class="day-rail" id="dayRail"></div></div><aside class="atlas-panel"><div class="panel-cover"></div><div class="panel-visual"><h4>Selected destination</h4><div class="panel-landmark"><div class="panel-landmark-badge" id="panelLandmarkBadge"></div><div class="panel-landmark-copy"><b id="panelLandmarkTitle">西日本旅行地图</b><span id="panelLandmarkText">点击左侧节点，查看当天的主题、时间线、交通、风险与行李策略。</span></div></div></div><div class="panel-body"><div class="panel-kicker" id="panelKicker"></div><h3 class="panel-title" id="panelTitle"></h3><p class="panel-summary" id="panelSummary"></p><div class="badge-row" id="panelBadges"></div><div class="wx-row" id="panelWeather"></div><div class="tabbar"><button class="tab-btn active" data-tab="timeline">时间线</button><button class="tab-btn" data-tab="transport">交通</button><button class="tab-btn" data-tab="risk">风险</button><button class="tab-btn" data-tab="luggage">行李</button></div><div class="tab-pane active" id="tab-timeline"></div><div class="tab-pane" id="tab-transport"></div><div class="tab-pane" id="tab-risk"></div><div class="tab-pane" id="tab-luggage"></div><div class="panel-actions"><button class="primary-btn" id="jumpDay">查看完整日程</button><button class="ghost-btn" id="openAllNearby">展开全部行程</button></div></div></aside></div></div></div></section>
 <section class="section" id="decisions"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 03</span><h2 class="section-title">已敲定的执行决策</h2><p class="section-sub">这些不是说明文字，而是后续每天安排的约束条件。网页所有详细行程都按这些决策重排。</p></div></div><div class="decision-grid"><article class="panel decision risk"><span class="label">已确定</span><div class="kicker" style="margin-top:14px">7月3日</div><h3>宫岛后住博多</h3><p>不再当天硬接由布院，避免宫岛潮汐、新干线、由布院列车三者连锁风险。</p></article><article class="panel decision optional"><span class="label">可切换</span><div class="kicker" style="margin-top:14px">熊本</div><h3>默认不进主线</h3><p>保留熊本一日往返模块，想去时删除佐贺/有田并调整7月6日晚住宿。</p></article><article class="panel decision reserve"><span class="label">需预约</span><div class="kicker" style="margin-top:14px">由布院之森</div><h3>尽力预约</h3><p>优先抢票，但若无票则改YUFU或经小仓、大分方向，不让观光列车绑架行程。</p></article><article class="panel decision risk"><span class="label">分级执行</span><div class="kicker" style="margin-top:14px">岛波海道</div><h3>三级骑行</h3><p>低强度到大岛，中强度到伯方岛，满状态再推进到大三岛。</p></article><article class="panel decision setouchi"><span class="label">已确定</span><div class="kicker" style="margin-top:14px">小豆岛</div><h3>双核心</h3><p>橄榄公园和天使之路为主线，其余景点只作为不影响潮汐窗口的补充。</p></article><article class="panel decision kyushu"><span class="label">已删除</span><div class="kicker" style="margin-top:14px">军舰岛</div><h3>删除</h3><p>长崎改为市内历史、港口、夜景线，降低天气取消风险。</p></article><article class="panel decision luggage"><span class="label">需执行</span><div class="kicker" style="margin-top:14px">行李</div><h3>城市转运加站点寄存</h3><p>大箱留在城市节点，跳岛、温泉、骑行日只带小包。</p></article><article class="panel decision pass"><span class="label">建议购买</span><div class="kicker" style="margin-top:14px">Pass</div><h3>北九州5日券</h3><p>7月4日至7月8日更适合5日券，3日券会漏掉高价值移动日。</p></article></div></div></section>
 <section class="section" id="days"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 04</span><h2 class="section-title">完整每日行程</h2><p class="section-sub">这里保留逐日详细时间线。地图点击“查看完整日程”会跳到对应日期。</p></div><button class="primary-btn" id="collapseAll">收起全部</button></div><div class="days" id="dayList"></div></div></section>
 <section class="section" id="risk"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 05</span><h2 class="section-title">风险雷达</h2><p class="section-sub">风险不是为了吓人，而是把现场决策提前写清楚。每个风险点都有触发原因和降级方案。</p></div></div><div class="risk-grid"><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>直岛预约链</h3><p><b>为什么：</b>冈山、宇野、渡轮、地中美术馆时间相互绑定</p><p><b>处理：</b>地中美术馆预约后移到10:30或11:00，晚点时优先保地中</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>丰岛船班</h3><p><b>为什么：</b>错过上午船班会压缩丰岛美术馆和心脏音博物馆</p><p><b>处理：</b>心脏音博物馆作为第二优先级，可删</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>小豆岛潮汐</h3><p><b>为什么：</b>橄榄公园停留过久会挤占天使之路窗口</p><p><b>处理：</b>补充景点只在潮汐前后空档加入</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>岛波骑行</h3><p><b>为什么：</b>雨、热、风、疲劳都会影响安全和尾道抵达</p><p><b>处理：</b>低、中、高三级目标，前一晚按天气决策</p></article><article class="panel risk-card"><span class="risk-level medium">中高风险</span><h3>宫岛接博多</h3><p><b>为什么：</b>潮汐和新干线划位共同决定节奏</p><p><b>处理：</b>7月3日只到博多，不再接由布院</p></article><article class="panel risk-card"><span class="risk-level medium">中风险</span><h3>由布院之森</h3><p><b>为什么：</b>观光列车高需求，可能满席</p><p><b>处理：</b>尽力抢票，无票改YUFU或经小仓、大分</p></article></div></div></section><section class="section" id="pass"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 06</span><h2 class="section-title">JR Pass与成本策略</h2><p class="section-sub">这里不追求把每一段票价精确到个位，而是确定购买逻辑和启用日期。</p></div></div><div class="pass-grid"><article class="panel pass-card"><div class="kicker">Setouchi Area Pass</div><h3>6月27日至7月3日启用</h3><div class="pass-price">22,000日元</div><p>核心价值是新大阪至冈山、四国、广岛、博多这一条主轴。不要为了关西机场到新大阪这段小交通提前启用。</p><div class="tags"><span class="tag">山阳新干线</span><span class="tag">宫岛渡轮</span><span class="tag high">小豆岛高速船不覆盖</span></div></article><article class="panel pass-card"><div class="kicker">Northern Kyushu Rail Pass</div><h3>建议5日券，7月4日至7月8日</h3><div class="pass-price">17,000日元</div><p>你的高价值移动日横跨7月4日至7月7日，3日券会漏掉一天，5日券更稳。若加熊本，一定更值得买。</p><div class="tags"><span class="tag kyushu">由布院</span><span class="tag kyushu">别府</span><span class="tag kyushu">长崎</span><span class="tag optional">熊本可选</span></div></article></div></div></section><section class="section" id="luggage"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 07</span><h2 class="section-title">行李转运与寄存策略</h2><p class="section-sub">网页采用城市转运、酒店寄存、站内投币柜、随身小包组合策略。离岛、宫岛和骑行日不要拖大箱。</p></div></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>日期</th><th>白天</th><th>夜宿</th><th>大箱</th><th>建议处理</th><th>备注</th></tr></thead><tbody><tr><td>6月25日至6月26日</td><td>大阪市内</td><td>新大阪</td><td>可带大箱</td><td>酒店寄存为主，新大阪站柜为补充</td><td>完成跳岛小包打包</td></tr><tr><td>6月27日</td><td>姬路、冈山</td><td>冈山</td><td>不建议带进姬路城</td><td>新大阪寄冈山，或姬路站寄存</td><td>姬路城游览时轻装</td></tr><tr><td>6月28日至6月29日</td><td>直岛、丰岛</td><td>直岛、冈山</td><td>不带大箱上岛</td><td>大箱留冈山或提前寄高松、广岛</td><td>岛上只带一晚小包</td></tr><tr><td>6月30日</td><td>小豆岛</td><td>高松</td><td>小包优先</td><td>土庄港或高松港周边寄存作为补充</td><td>潮汐日不要拖箱移动</td></tr><tr><td>7月2日</td><td>岛波海道</td><td>尾道</td><td>禁止带大箱骑行</td><td>大箱提前发广岛或博多</td><td>骑行日只带随身小包</td></tr><tr><td>7月3日</td><td>宫岛</td><td>博多</td><td>不要带大箱上宫岛</td><td>广岛站柜或直接送博多酒店</td><td>博多成为九州大本营</td></tr><tr><td>7月4日至7月5日</td><td>由布院、别府</td><td>由布院、博多</td><td>只带一晚小包</td><td>大箱留博多酒店或发博多</td><td>温泉镇不依赖当天转运</td></tr><tr><td>7月6日至7月7日</td><td>长崎、佐贺或熊本</td><td>长崎或博多</td><td>小包优先</td><td>若熊本模式，7月6日必须回博多</td><td>博多酒店寄存最稳</td></tr></tbody></table></div></div></section>
@@ -392,17 +389,11 @@ const DAYS=[{"id": 0, "code": "抵达", "kicker": "6月25日（周四），夜�
 const OPTIONAL={"id": "kumamoto", "code": "支线", "kicker": "可选模块", "title": "熊本一日往返", "summary": "默认不进入主线。若临时决定去熊本，建议7月6日长崎当天返回博多，7月7日博多至熊本一日往返，删除佐贺或有田。", "x": 2.5, "z": -1.35, "station": "熊本可选", "landmark": "castle_dark", "region": "optional", "risk": "medium", "luggage": "博多留箱", "timeline": [{"time": "触发条件", "text": "特别想看熊本城，且愿意删除佐贺或有田，并把长崎住宿调整为当天回博多。"}, {"time": "执行方式", "text": "7月7日从博多坐九州新干线往返熊本，游熊本城、樱之马场城彩苑、熊本熊广场，晚上回博多。"}], "infos": [{"title": "代价", "text": "删除佐贺或有田，长崎夜景从容度下降。"}, {"title": "行李", "text": "大箱留博多，只带随身包。"}, {"title": "Pass", "text": "北九州JR Pass覆盖博多至熊本区间。"}]};
 const CHECKS=['购买Setouchi Area Pass，并确认6月27日至7月3日启用。','购买北九州JR Pass 5日券，原则上7月4日至7月8日启用。','预约地中美术馆，优先6月28日10:30或11:00场。','预约丰岛美术馆，优先6月29日10:30或11:00场。','确认直岛至丰岛、丰岛返程船班。','复核6月30日小豆岛天使之路潮汐窗口。','复核7月3日宫岛严岛神社潮汐窗口。','抢由布院之森指定席，同时准备YUFU或经大分替代方案。','前一晚按天气决定岛波海道骑行等级。','确认酒店是否接收宅急便，并准备小包跳岛。','若临时去熊本，提前把7月6日改为长崎当天返回博多。','7月8日按航班时间决定是否保留太宰府。'];
 const GEO_POINTS={
-  0:[135.5023,34.6937],1:[135.4983,34.7025],2:[134.2583,34.8151],3:[133.9957,34.4594],4:[134.1064,34.4889],5:[134.2556,34.4861],6:[132.7657,33.8392],7:[133.0324,34.0660],8:[131.3947,33.9310],9:[131.3611,33.2634],10:[131.4914,33.2795],11:[129.8737,32.7503],12:[130.2988,33.2494],13:[130.4017,33.5902], kumamoto:[130.7079,32.8031]
+  0:[135.5003,34.7335],1:[135.5262,34.6873],2:[134.6939,34.8394],3:[133.9953,34.4486],4:[134.1056,34.4983],5:[134.2522,34.4869],6:[132.7860,33.8516],7:[132.9870,34.1133],8:[132.3199,34.2959],9:[131.3656,33.2647],10:[131.4869,33.2846],11:[129.8704,32.7344],12:[130.3009,33.2635],13:[130.4017,33.5902], kumamoto:[130.7059,32.8061]
 };
-const WEST_MAP_BOUNDS={minLon:129.45,maxLon:135.88,minLat:32.50,maxLat:34.98,width:10.8,height:5.25};
-function projectGeo(lon,lat){
-  const x=((lon-(WEST_MAP_BOUNDS.minLon+WEST_MAP_BOUNDS.maxLon)/2)/(WEST_MAP_BOUNDS.maxLon-WEST_MAP_BOUNDS.minLon))*WEST_MAP_BOUNDS.width;
-  const z=(((WEST_MAP_BOUNDS.minLat+WEST_MAP_BOUNDS.maxLat)/2)-lat)/(WEST_MAP_BOUNDS.maxLat-WEST_MAP_BOUNDS.minLat)*WEST_MAP_BOUNDS.height;
-  return {x,z};
-}
 function configureGeography(){
-  DAYS.forEach((d,idx)=>{const p=projectGeo(...GEO_POINTS[idx]); d.x=p.x; d.z=p.z;});
-  const o=projectGeo(...GEO_POINTS.kumamoto); OPTIONAL.x=o.x; OPTIONAL.z=o.z;
+  DAYS.forEach((d,idx)=>{const g=GEO_POINTS[idx]; d.lng=g[0]; d.lat=g[1];});
+  const o=GEO_POINTS.kumamoto; OPTIONAL.lng=o[0]; OPTIONAL.lat=o[1];
 }
 /* ───────── 西国航路 · UI 层 1：图标 / 发车牌 / 天气 / 面板 ───────── */
 let currentIndex=0, currentMode='route', kumamotoOn=false;
@@ -563,563 +554,154 @@ function renderPanel(item){
   updatePanelVisual(d);
 }
 
-/* ───────── 西国航路 · 三维海图层 ───────── */
-let scene,camera,renderer,raycaster,pointerV;
-let nodeGroups=[],optionalGroup=null,optionalLine=null,activePulse=null;
-let water=null,contourTex=null,routeMeshes=[],routeFull=null,ferry=null,glowMats=[],pickMeshes=[];
-let mapClock=null,uTime=0,three_ok=false,glowTex=null;
-const COARSE=window.matchMedia&&matchMedia('(pointer: coarse)').matches;
-const PAL={setouchi:0x4C93B4,kyushu:0x2E8B6A,risk:0xC9472B,optional:0x6E7E89,gold:0xB8923E,mist:0x7FB3C8};
-const orbit={theta:-0.18,phi:0.92,radius:10.3,target:null,home:{theta:-0.18,phi:0.92,radius:10.3}};
-let flight=null;
-const tweens=[];
-const easeOut=p=>1-Math.pow(1-p,3);
-function tween(dur,fn,done){tweens.push({t0:performance.now(),dur,fn,done})}
-function runTweens(now){for(let i=tweens.length-1;i>=0;i--){const t=tweens[i];const p=Math.min(1,(now-t.t0)/t.dur);t.fn(p);if(p>=1){tweens.splice(i,1);if(t.done)t.done()}}}
+/* ───────── 西国航路 · 真实地图层（Leaflet） ───────── */
+let lmap=null, map_ok=false, markers=[], optMarker=null, routeLines=[], optLine=null, tour=null;
 
-function initThree(){
-  if(!window.THREE){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';return}
-  three_ok=true;
-  const canvas=document.getElementById('atlasCanvas');
-  renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,COARSE?1.5:1.8));
-  renderer.shadowMap.enabled=!COARSE;
-  if(!COARSE)renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-  renderer.setClearColor(0x0A1C2E,1);
-  scene=new THREE.Scene();
-  scene.fog=new THREE.Fog(0x0A1C2E,12,30);
-  camera=new THREE.PerspectiveCamera(38,16/9,.1,120);
-  orbit.target=new THREE.Vector3(0,0,0);
-  raycaster=new THREE.Raycaster();pointerV=new THREE.Vector2();
-  scene.add(new THREE.HemisphereLight(0xBFD9E8,0x0A1C2E,.95));
-  const dir=new THREE.DirectionalLight(0xFFEFD8,1.7);
-  dir.position.set(-6,9.5,4.5);
-  if(!COARSE){dir.castShadow=true;dir.shadow.mapSize.set(1024,1024);dir.shadow.camera.left=-8;dir.shadow.camera.right=8;dir.shadow.camera.top=6;dir.shadow.camera.bottom=-6;dir.shadow.camera.far=30}
-  scene.add(dir);
-  scene.add(new THREE.AmbientLight(0x27445C,.55));
-  buildWater();buildContours();buildLand();buildRoutes();buildLabels();buildNodes();
-  activePulse=new THREE.Mesh(new THREE.TorusGeometry(.23,.02,12,60),new THREE.MeshBasicMaterial({color:0xF4EEE1,transparent:true,opacity:.85}));
-  activePulse.rotation.x=Math.PI/2;scene.add(activePulse);
-  bindControls(canvas);
-  window.addEventListener('resize',resizeMap);resizeMap();
-  applyOrbit();
-  mapClock=new THREE.Clock();
-  selectDay(0);
-  startRouteDrawIn();
-  animate();
-}
-
-/* 等深线呼吸海面 */
-function buildWater(){
-  const seg=COARSE?[110,64]:[170,100];
-  const geo=new THREE.PlaneGeometry(28,16,seg[0],seg[1]);
-  const mat=new THREE.ShaderMaterial({
-    uniforms:{uT:{value:0},cDeep:{value:new THREE.Color(0x0C2336)},cCrest:{value:new THREE.Color(0x2C5874)},cMist:{value:new THREE.Color(0x7FB3C8)},fogColor:{value:new THREE.Color(0x0A1C2E)},fogNear:{value:12},fogFar:{value:30}},
-    vertexShader:'uniform float uT;varying float vW;varying vec3 vP;void main(){vec3 p=position;float w=sin(p.x*1.15+uT*.85)*.05+sin(p.y*1.85-uT*.62)*.042+sin((p.x+p.y)*3.0+uT*1.35)*.02;p.z+=w;vW=w;vec4 wp=modelMatrix*vec4(p,1.);vP=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}',
-    fragmentShader:'uniform vec3 cDeep,cCrest,cMist,fogColor;uniform float uT,fogNear,fogFar;varying float vW;varying vec3 vP;void main(){vec3 col=mix(cDeep,cCrest,smoothstep(-.07,.1,vW));float sp=pow(max(0.,sin(vP.x*14.+uT*1.7)*sin(vP.z*11.-uT*1.3)),22.)*.35;col+=cMist*sp;float d=distance(vP,cameraPosition);col=mix(col,fogColor,smoothstep(fogNear,fogFar,d));gl_FragColor=vec4(col,1.);}'
-  });
-  water=new THREE.Mesh(geo,mat);
-  water.rotation.x=-Math.PI/2;water.position.y=-.12;scene.add(water);
-}
-function buildContours(){
-  const c=document.createElement('canvas');c.width=1024;c.height=600;
-  const x=c.getContext('2d');
-  x.strokeStyle='rgba(127,179,200,.13)';x.lineWidth=1.2;
-  [[300,360],[640,300],[850,430],[170,150]].forEach(ct=>{
-    for(let r=42;r<300;r+=34){
-      x.beginPath();
-      for(let a=0;a<=Math.PI*2+.19;a+=.18){
-        const rr=r+Math.sin(a*3+ct[0])*7+Math.cos(a*5+ct[1])*5;
-        const px=ct[0]+Math.cos(a)*rr,py=ct[1]+Math.sin(a)*rr*.72;
-        if(a===0)x.moveTo(px,py);else x.lineTo(px,py);
-      }
-      x.stroke();
-    }
-  });
-  contourTex=new THREE.CanvasTexture(c);
-  contourTex.wrapS=contourTex.wrapT=THREE.RepeatWrapping;
-  const m=new THREE.Mesh(new THREE.PlaneGeometry(28,16),new THREE.MeshBasicMaterial({map:contourTex,transparent:true,opacity:.5,depthWrite:false}));
-  m.rotation.x=-Math.PI/2;m.position.y=-.10;scene.add(m);
-}
-
-/* 暖纸地形（真实海岸折线投影） */
-function addGeoLand(coords,color){
-  const pts2=coords.map(c=>{const p=projectGeo(c[0],c[1]);return p});
-  const shape=new THREE.Shape(pts2.map(p=>new THREE.Vector2(p.x,-p.z)));
-  const geo=new THREE.ExtrudeGeometry(shape,{depth:.13,bevelEnabled:false});
-  const mat=new THREE.MeshStandardMaterial({color,roughness:.85,metalness:.02});
-  const m=new THREE.Mesh(geo,mat);
-  m.rotation.x=-Math.PI/2;m.position.y=.02;
-  m.receiveShadow=!COARSE;m.castShadow=!COARSE;
-  scene.add(m);
-  const line=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts2.map(p=>new THREE.Vector3(p.x,.17,p.z))),new THREE.LineBasicMaterial({color:0x7FB3C8,transparent:true,opacity:.5}));
-  scene.add(line);
-}
-function addGeoIsland(lon,lat,r){
-  const p=projectGeo(lon,lat);
-  const m=new THREE.Mesh(new THREE.CylinderGeometry(r*1.18,r*1.04,.1,32),new THREE.MeshStandardMaterial({color:0xE6D9BC,roughness:.85}));
-  m.position.set(p.x,.12,p.z);m.castShadow=!COARSE;scene.add(m);
-}
-function buildLand(){
-  addGeoLand([[135.85,34.84],[135.62,34.76],[135.25,34.57],[134.77,34.55],[134.33,34.70],[133.82,34.75],[133.42,34.70],[132.98,34.53],[132.43,34.41],[131.93,34.27],[131.54,34.20],[131.47,34.08],[131.74,34.02],[132.16,34.06],[132.74,34.10],[133.31,34.18],[133.93,34.18],[134.54,34.18],[135.05,34.21],[135.44,34.34],[135.74,34.56]],0xEADFC6);
-  addGeoLand([[134.75,34.31],[134.37,34.28],[133.92,34.22],[133.49,34.13],[133.03,33.96],[132.74,33.78],[132.77,33.62],[133.08,33.57],[133.55,33.58],[134.00,33.65],[134.38,33.78],[134.68,34.03]],0xE2D5B6);
-  addGeoLand([[131.42,33.86],[131.00,33.80],[130.58,33.74],[130.18,33.55],[129.92,33.31],[129.86,33.02],[130.08,32.79],[130.48,32.68],[130.88,32.71],[131.12,32.91],[131.29,33.18],[131.42,33.45]],0xDFD0B0);
-  addGeoLand([[134.96,34.33],[134.83,34.28],[134.73,34.17],[134.77,34.08],[134.89,34.09],[135.01,34.19]],0xE2D5B6);
-  addGeoIsland(133.9957,34.4594,.17);addGeoIsland(134.1064,34.4889,.12);addGeoIsland(134.2556,34.4861,.19);addGeoIsland(132.3199,34.2959,.12);
-}
-
-/* 发光航路 + 巡航渡轮光点 */
-function mkTube(points,color){
-  const curve=new THREE.CatmullRomCurve3(points,false,'catmullrom',.35);
-  const segs=Math.max(60,points.length*26);
-  const geo=new THREE.TubeGeometry(curve,segs,.034,10,false);
-  const mat=new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.6,roughness:.35,metalness:.1,transparent:true,opacity:.95});
-  const mesh=new THREE.Mesh(geo,mat);
-  mesh.userData.totalIndex=geo.index.count;
-  geo.setDrawRange(0,0);
-  scene.add(mesh);routeMeshes.push(mesh);
-  return mesh;
-}
-function makeGlowSprite(color,scale,opacity){
-  if(!glowTex){
-    const c=document.createElement('canvas');c.width=c.height=64;
-    const x=c.getContext('2d');
-    const g=x.createRadialGradient(32,32,2,32,32,30);
-    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.4,'rgba(255,255,255,.45)');g.addColorStop(1,'rgba(255,255,255,0)');
-    x.fillStyle=g;x.fillRect(0,0,64,64);
-    glowTex=new THREE.CanvasTexture(c);
-  }
-  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color,transparent:true,opacity,blending:THREE.AdditiveBlending,depthWrite:false}));
-  s.scale.setScalar(scale);
-  return s;
-}
-function buildRoutes(){
-  const pts=DAYS.map(d=>new THREE.Vector3(d.x,.24,d.z));
-  routeFull=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.35);
-  mkTube(pts.slice(0,9),PAL.mist);
-  mkTube(pts.slice(8),PAL.kyushu);
-  ferry=makeGlowSprite(0xF4EEE1,.42,.85);
-  scene.add(ferry);
-  optionalLine=makeOptionalLine();optionalLine.visible=false;scene.add(optionalLine);
-}
-function makeOptionalLine(){
-  const start=projectGeo(130.40,33.59);
-  const pts=[new THREE.Vector3(start.x,.24,start.z),new THREE.Vector3(OPTIONAL.x,.24,OPTIONAL.z)];
-  const curve=new THREE.CatmullRomCurve3(pts);
-  const geo=new THREE.TubeGeometry(curve,60,.018,8,false);
-  return new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0x6E7E89,transparent:true,opacity:.55}));
-}
-function startRouteDrawIn(){
-  const reset=()=>routeMeshes.forEach(m=>m.geometry.setDrawRange(0,Infinity));
-  if(REDUCED||!('IntersectionObserver' in window)){reset();return}
-  const map=document.querySelector('.atlas-map');
-  const draw=(i,done)=>{
-    const m=routeMeshes[i];
-    if(!m){if(done)done();return}
-    const total=m.userData.totalIndex;
-    tween(1700,p=>m.geometry.setDrawRange(0,Math.floor(total*easeOut(p))),done);
-  };
-  const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();draw(0,()=>draw(1))}},{threshold:.25});
-  io.observe(map);
-}
-
-/* 区域文字 / 节点标签 */
-function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
-function regionLabelSprite(text){
-  const c=document.createElement('canvas');c.width=512;c.height=80;
-  const x=c.getContext('2d');
-  x.font='600 30px "IBM Plex Mono","Noto Sans SC",monospace';
-  x.fillStyle='rgba(127,179,200,.85)';x.textBaseline='middle';
-  const chars=Array.from(text),lsp=14;
-  let w=0;chars.forEach(ch=>{w+=x.measureText(ch).width+lsp});
-  let cx=256-w/2;
-  chars.forEach(ch=>{const cw=x.measureText(ch).width;x.fillText(ch,cx,42);cx+=cw+lsp});
-  const tex=new THREE.CanvasTexture(c);
-  return new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,opacity:.9,depthWrite:false}));
-}
-function buildLabels(){
-  [['关西 · 山阳',135.15,34.88],['濑户内海',133.55,34.05],['四国',133.45,33.50],['北九州',130.55,33.97]].forEach(it=>{
-    const s=regionLabelSprite(it[0]);
-    const p=projectGeo(it[1],it[2]);
-    s.position.set(p.x,.34,p.z);s.scale.set(1.9,.3,1);
-    scene.add(s);
-  });
-}
-function makeTextSprite(text,color,bg){
-  const c=document.createElement('canvas');c.width=320;c.height=108;
-  const ctx=c.getContext('2d');
-  ctx.fillStyle=bg||'rgba(7,20,33,.82)';roundRect(ctx,24,20,272,64,18);ctx.fill();
-  ctx.strokeStyle='rgba(127,179,200,.45)';ctx.lineWidth=2;roundRect(ctx,24,20,272,64,18);ctx.stroke();
-  ctx.font='600 34px "IBM Plex Mono","Noto Sans SC",monospace';
-  ctx.fillStyle=color||'#EAF2F7';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(text,160,53);
-  const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;
-  return new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
-}
-
-/* 微缩地标 */
-function pumpkinMaterial(){
-  if(window.__pumpkinMat)return window.__pumpkinMat;
-  const c=document.createElement('canvas');c.width=128;c.height=128;
-  const ctx=c.getContext('2d');
-  ctx.fillStyle='#D9A531';ctx.fillRect(0,0,128,128);
-  ctx.fillStyle='#1B2630';
-  for(let i=0;i<28;i++){ctx.beginPath();ctx.arc((i*37)%128,(i*53)%128,4+(i%3),0,Math.PI*2);ctx.fill()}
-  const tex=new THREE.CanvasTexture(c);
-  window.__pumpkinMat=new THREE.MeshStandardMaterial({map:tex,roughness:.48});
-  return window.__pumpkinMat;
-}
-function addCable(group,x1,y1,z1,x2,y2,z2){
-  const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(x1,y1,z1),new THREE.Vector3((x1+x2)/2,(y1+y2)/2+.12,(z1+z2)/2),new THREE.Vector3(x2,y2,z2)]);
-  const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,12,.004,6,false),new THREE.MeshBasicMaterial({color:0xC9D5DB,transparent:true,opacity:.95}));
-  group.add(mesh);
-}
-function addSteam(group,x,y,z){
-  for(let i=0;i<3;i++){
-    const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(x+i*.035-.035,y,z),new THREE.Vector3(x+i*.035-.04,y+.10,z+.02),new THREE.Vector3(x+i*.035,y+.19,z-.02)]);
-    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve,16,.007,6,false),new THREE.MeshBasicMaterial({color:0xFFFFFF,transparent:true,opacity:.45})));
-  }
-}
-function addLandmark(g,type){
-  const group=new THREE.Group();group.position.y=.12;g.add(group);
-  const white=new THREE.MeshStandardMaterial({color:0xFAF3E3,roughness:.58}),
-        roof=new THREE.MeshStandardMaterial({color:0x24384A,roughness:.46}),
-        red=new THREE.MeshStandardMaterial({color:0xC9472B,roughness:.48}),
-        green=new THREE.MeshStandardMaterial({color:0x2E8B6A,roughness:.62}),
-        stone=new THREE.MeshStandardMaterial({color:0xC2D3DB,roughness:.55});
-  const box=(w,h,d,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
-  const cyl=(r,h,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,24),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
-  const cone=(r,h,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.ConeGeometry(r,h,4),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
-  const sphere=(r,mat,x,y,z,sx,sy,sz)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,20,16),mat);m.position.set(x||0,y||0,z||0);m.scale.set(sx||1,sy||1,sz||1);m.castShadow=!COARSE;group.add(m);return m};
-  if(type==='castle'||type==='castle_dark'){
-    const roofMat=type==='castle_dark'?new THREE.MeshStandardMaterial({color:0x1A222C,roughness:.42}):roof;
-    box(.34,.13,.24,white,0,.08,0);box(.25,.11,.19,white,0,.21,0);box(.18,.10,.14,white,0,.32,0);
-    box(.42,.03,.30,roofMat,0,.15,0);box(.31,.03,.23,roofMat,0,.27,0);box(.22,.03,.18,roofMat,0,.38,0);
-    box(.06,.06,.06,white,-.11,.13,.11);box(.06,.06,.06,white,.11,.13,.11);
-  }else if(type==='pumpkin'){
-    sphere(.18,pumpkinMaterial(),0,.20,0,1.15,.85,1.08);
-    cyl(.026,.12,new THREE.MeshStandardMaterial({color:0x2E8B6A,roughness:.6}),0,.34,0);
-  }else if(type==='museum'){
-    box(.42,.05,.24,white,0,.08,0);
-    const shell=new THREE.Mesh(new THREE.BoxGeometry(.28,.11,.18),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.35}));
-    shell.position.set(0,.16,0);shell.rotation.z=.18;shell.castShadow=!COARSE;group.add(shell);
-    box(.38,.018,.24,new THREE.MeshStandardMaterial({color:0xB7D9E3,transparent:true,opacity:.78}),0,.03,.1);
-  }else if(type==='olive'){
-    cyl(.028,.22,new THREE.MeshStandardMaterial({color:0x7A5F3E}),0,.12,0);
-    sphere(.09,green,-.09,.28,-.02,1.5,.78,1);
-    sphere(.09,green,.08,.32,.02,1.7,.82,1.1);
-    sphere(.08,new THREE.MeshStandardMaterial({color:0x3CAB7E,roughness:.6}),0,.23,.08,1.4,.7,1);
-    box(.35,.02,.08,new THREE.MeshStandardMaterial({color:0xEAD49A}),.08,.02,.14);
-  }else if(type==='onsen_house'){
-    box(.36,.12,.22,white,0,.09,0);box(.42,.04,.28,roof,0,.18,0);
-    box(.18,.06,.08,new THREE.MeshStandardMaterial({color:0xE4C8A0}),0,.06,.12);
-    cyl(.065,.022,new THREE.MeshStandardMaterial({color:0x5FA8C4,transparent:true,opacity:.88}),-.12,.02,.13);
-    addSteam(group,-.12,.11,.13);
-  }else if(type==='bridge'){
-    box(.78,.03,.05,new THREE.MeshStandardMaterial({color:0xD9E6ED}),0,.24,0);
-    box(.05,.36,.05,stone,-.28,.22,0);box(.05,.36,.05,stone,.28,.22,0);
-    addCable(group,-.28,.38,-.02,-.04,.24,-.02);addCable(group,.28,.38,-.02,.04,.24,-.02);
-    const wheel1=new THREE.Mesh(new THREE.TorusGeometry(.038,.006,8,16),new THREE.MeshBasicMaterial({color:0xFFF5DF}));
-    wheel1.rotation.y=Math.PI/2;wheel1.position.set(-.04,.10,.12);group.add(wheel1);
-    const wheel2=wheel1.clone();wheel2.position.x=.06;group.add(wheel2);
-  }else if(type==='torii'){
-    cyl(.12,.02,new THREE.MeshStandardMaterial({color:0x4C93B4,transparent:true,opacity:.75}),0,.02,0);
-    box(.08,.36,.06,red,-.12,.19,0);box(.08,.36,.06,red,.12,.19,0);
-    box(.42,.06,.08,red,0,.39,0);box(.50,.04,.09,red,0,.47,0);
-  }else if(type==='mountain'){
-    cone(.18,.32,new THREE.MeshStandardMaterial({color:0x467F62,roughness:.72}),-.08,.18,-.02);
-    cone(.22,.40,new THREE.MeshStandardMaterial({color:0x3D7457,roughness:.72}),.10,.22,.02);
-    cyl(.08,.024,new THREE.MeshStandardMaterial({color:0x5FA8C4}),.18,.02,.12);
-    addSteam(group,.18,.10,.12);
-  }else if(type==='steam'){
-    cyl(.18,.025,new THREE.MeshStandardMaterial({color:0x5FA8C4,transparent:true,opacity:.92}),0,.02,0);
-    addSteam(group,0,.11,0);addSteam(group,.08,.15,.04);
-    box(.12,.06,.10,white,-.16,.05,-.02);
-  }else if(type==='church'){
-    box(.28,.20,.20,white,0,.13,0);box(.08,.25,.08,white,0,.35,0);
-    box(.32,.04,.24,roof,0,.24,0);box(.04,.10,.04,white,0,.51,0);box(.10,.02,.02,white,0,.50,0);
-  }else if(type==='tower'){
-    cyl(.03,.44,new THREE.MeshStandardMaterial({color:0xD8E9EF}),0,.24,0);
-    const pod=new THREE.Mesh(new THREE.SphereGeometry(.10,18,14),new THREE.MeshStandardMaterial({color:0x7ED1E8,transparent:true,opacity:.95}));
-    pod.position.y=.48;pod.castShadow=!COARSE;group.add(pod);
-    box(.10,.02,.10,stone,0,.02,0);
-  }else if(type==='city'){
-    box(.14,.20,.14,stone,-.12,.10,0);box(.15,.32,.15,white,.02,.16,.02);
-    box(.10,.12,.10,new THREE.MeshStandardMaterial({color:0xE4C8A0}),.18,.06,.02);
-  }else if(type==='train'){
-    box(.40,.12,.16,new THREE.MeshStandardMaterial({color:0xEEF8FB}),0,.09,0);
-    box(.14,.10,.17,new THREE.MeshStandardMaterial({color:0x4C93B4}),.13,.10,0);
-    box(.48,.012,.20,new THREE.MeshStandardMaterial({color:0xE5D0A7}),0,.01,0);
-  }else{
-    cyl(.12,.24,white,0,.12,0);
-  }
-}
-
-/* 节点 */
 function nodeColor(d){
-  if(d.region==='optional')return PAL.optional;
-  if(d.risk==='high')return PAL.risk;
-  return d.region==='kyushu'?PAL.kyushu:PAL.setouchi;
+  if(!d)return '#4C93B4';
+  if(d.region==='optional')return '#6E7E89';
+  if(d.risk==='high')return '#C9472B';
+  return d.region==='kyushu'?'#2E8B6A':'#4C93B4';
 }
-function materialFor(d){
-  const c=nodeColor(d);
-  return new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.3,roughness:.34,metalness:.22});
-}
-function makeNode(d,index,optional){
-  const g=new THREE.Group();
-  g.position.set(d.x,.24,d.z);
-  g.userData={index:index,optional:!!optional};
-  const base=new THREE.Mesh(new THREE.CylinderGeometry(.12,.18,.10,32),materialFor(d));
-  base.castShadow=!COARSE;g.add(base);
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(.16,.01,8,40),new THREE.MeshBasicMaterial({color:0xF4EEE1,transparent:true,opacity:.4}));
-  ring.rotation.x=Math.PI/2;ring.position.y=.055;g.add(ring);
-  const pick=new THREE.Mesh(new THREE.SphereGeometry(.34,12,12),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
-  pick.userData={index:index,optional:!!optional};
-  pickMeshes.push(pick);g.add(pick);
-  addLandmark(g,d.landmark);
-  if(d.risk==='high'&&!optional){
-    const gl=makeGlowSprite(PAL.risk,.95,.38);
-    gl.position.y=.14;g.add(gl);glowMats.push(gl.material);
+function modeColor(d){
+  if(currentMode==='risk')return d.risk==='high'?'#C9472B':d.risk==='medium'?'#B8923E':'#4C93B4';
+  if(currentMode==='luggage'){
+    const s=d.luggage||'';
+    return s.includes('禁止')?'#C9472B':s.includes('寄存')?'#B8923E':s.includes('小包')?'#2E8B6A':'#7FB3C8';
   }
-  const label=makeTextSprite(d.code,optional?'#C8CFDC':'#EAF2F7',optional?'rgba(58,66,84,.78)':'rgba(7,20,33,.82)');
-  label.position.set(0,.86,.02);label.scale.set(.52,.18,1);
-  g.add(label);
-  scene.add(g);
-  return g;
-}
-function buildNodes(){
-  DAYS.forEach((d,i)=>nodeGroups.push(makeNode(d,i,false)));
-  optionalGroup=makeNode(OPTIONAL,'kumamoto',true);
-  optionalGroup.visible=false;
-}
-function showOptional(v){
-  if(!three_ok)return;
-  if(optionalGroup)optionalGroup.visible=v;
-  if(optionalLine)optionalLine.visible=v;
+  return nodeColor(d);
 }
 
-/* 轨道控制：拖拽旋转 / 滚轮缩放 / 双指捏合 / 点击选站 */
-function applyOrbit(){
-  if(!camera)return;
-  const sp=Math.sin(orbit.phi);
-  camera.position.set(
-    orbit.target.x+orbit.radius*sp*Math.sin(orbit.theta),
-    orbit.target.y+orbit.radius*Math.cos(orbit.phi),
-    orbit.target.z+orbit.radius*sp*Math.cos(orbit.theta));
-  camera.lookAt(orbit.target);
-}
-function bindControls(canvas){
-  let dragging=false,moved=0,px=0,py=0;
-  const pointers=new Map();
-  const pinch={d:0,active:false};
-  canvas.addEventListener('pointerdown',e=>{
-    cancelFlight();
-    pointers.set(e.pointerId,[e.clientX,e.clientY]);
-    if(pointers.size===1){dragging=true;moved=0;px=e.clientX;py=e.clientY;try{canvas.setPointerCapture(e.pointerId)}catch(err){}}
-    else if(pointers.size===2){
-      const a=Array.from(pointers.values());
-      pinch.active=true;pinch.d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
-    }
-  });
-  canvas.addEventListener('pointermove',e=>{
-    if(!pointers.has(e.pointerId))return;
-    pointers.set(e.pointerId,[e.clientX,e.clientY]);
-    if(pinch.active&&pointers.size===2){
-      const a=Array.from(pointers.values());
-      const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
-      if(d>0){orbit.radius=clamp(orbit.radius*(pinch.d/d),5.2,16);pinch.d=d;applyOrbit()}
-      return;
-    }
-    if(!dragging)return;
-    const dx=e.clientX-px,dy=e.clientY-py;
-    moved+=Math.abs(dx)+Math.abs(dy);
-    px=e.clientX;py=e.clientY;
-    orbit.theta-=dx*.0042;
-    orbit.phi=clamp(orbit.phi-dy*.003,.45,1.32);
-    applyOrbit();
-  });
-  const up=e=>{
-    pointers.delete(e.pointerId);
-    if(pointers.size<2)pinch.active=false;
-    if(dragging&&pointers.size===0){dragging=false;if(moved<7)pickAt(e,canvas)}
-  };
-  canvas.addEventListener('pointerup',up);
-  canvas.addEventListener('pointercancel',up);
-  canvas.addEventListener('wheel',e=>{
-    e.preventDefault();cancelFlight();
-    orbit.radius=clamp(orbit.radius*(1+e.deltaY*.0011),5.2,16);
-    applyOrbit();
-  },{passive:false});
-}
-function pickAt(e,canvas){
-  const r=canvas.getBoundingClientRect();
-  pointerV.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
-  raycaster.setFromCamera(pointerV,camera);
-  const vis=pickMeshes.filter(p=>p.parent&&p.parent.visible);
-  const hits=raycaster.intersectObjects(vis,false);
-  if(hits.length){
-    const u=hits[0].object.userData;
-    if(u.optional){kumamotoOn=true;syncKumamotoBtn();showOptional(true);selectOptional()}
-    else selectDay(u.index);
-  }
-}
-function syncOrbitFromCamera(){
-  const off=camera.position.clone().sub(orbit.target);
-  const len=Math.max(.001,off.length());
-  orbit.radius=clamp(len,5.2,16);
-  orbit.phi=clamp(Math.acos(clamp(off.y/len,-1,1)),.45,1.32);
-  orbit.theta=Math.atan2(off.x,off.z);
-  applyOrbit();
+function injectMapStyles(){
+  if(document.getElementById('atlasMapStyles'))return;
+  const s=document.createElement('style');s.id='atlasMapStyles';
+  s.textContent=[
+  '#atlasLeaflet{position:absolute;inset:0;z-index:1;background:#0E2438}',
+  '.atlas-map .leaflet-container{font-family:var(--sans);background:#0E2438}',
+  '.atlas-map .leaflet-control-attribution{background:rgba(251,247,236,.82);color:#6E7E89;font-size:9.5px;padding:1px 6px;border-radius:6px 0 0 0;margin:0}',
+  '.atlas-map .leaflet-control-attribution a{color:#9C3520}',
+  '.atlas-pin-wrap{background:none;border:none}',
+  '.pin{position:relative;width:42px;height:42px}',
+  '.pin-body{position:absolute;inset:0;border-radius:50% 50% 50% 8px;transform:rotate(45deg);background:#FFFCF3;border:2.5px solid var(--pin,#4C93B4);box-shadow:0 6px 15px rgba(7,20,33,.32);transition:transform .25s,box-shadow .25s,border-color .3s,opacity .3s}',
+  '.pin-ico{position:absolute;inset:0;display:grid;place-items:center;color:var(--pin,#4C93B4);z-index:2;transition:color .3s}',
+  '.pin-ico svg{width:23px;height:23px}',
+  '.pin-code{position:absolute;top:-8px;right:-8px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--pin,#4C93B4);color:#FBF7EC;font-family:var(--mono);font-size:10px;font-weight:600;display:none;align-items:center;justify-content:center;z-index:3;box-shadow:0 2px 6px rgba(7,20,33,.4)}',
+  '.pin.active .pin-body{transform:rotate(45deg) scale(1.24);box-shadow:0 0 0 6px rgba(76,147,180,.18),0 11px 22px rgba(7,20,33,.4)}',
+  '.pin.active .pin-code{display:flex}',
+  '.pin.opt .pin-body{border-style:dashed}',
+  '.pin:hover .pin-body{transform:rotate(45deg) scale(1.13)}',
+  '.atlas-tip{font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:rgba(7,20,33,.92);color:#F4EEE1;border:none;border-radius:7px;padding:5px 9px;box-shadow:0 4px 12px rgba(7,20,33,.45)}',
+  '.atlas-tip:before{border-top-color:rgba(7,20,33,.92)}',
+  '@keyframes routeflow{to{stroke-dashoffset:-240}}',
+  '.atlas-route{animation:routeflow 10s linear infinite}'
+  ].join('');
+  document.head.appendChild(s);
 }
 
-/* 选站 */
-function tweenScale(g,s){const s0=g.scale.x;tween(380,p=>g.scale.setScalar(s0+(s-s0)*easeOut(p)))}
-function tweenTarget(v){const f=orbit.target.clone();tween(750,p=>{orbit.target.lerpVectors(f,v,easeOut(p));applyOrbit()})}
-function selectDay(i){
+function makePinIcon(d,code){
+  const html='<div class="pin'+(d.region==='optional'?' opt':'')+'" style="--pin:'+nodeColor(d)+'">'
+    +'<div class="pin-body"></div>'
+    +'<div class="pin-ico">'+iconFor(d.landmark)+'</div>'
+    +'<div class="pin-code">'+esc(code||'')+'</div></div>';
+  return L.divIcon({className:'atlas-pin-wrap',html:html,iconSize:[42,42],iconAnchor:[21,39],tooltipAnchor:[0,-33]});
+}
+
+function initMap(){
+  if(!window.L){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';return}
+  injectMapStyles();
+  lmap=L.map('atlasLeaflet',{zoomControl:false,scrollWheelZoom:false,minZoom:5,maxZoom:16,zoomSnap:.25,worldCopyJump:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+    subdomains:'abcd',maxZoom:19,detectRetina:true,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }).addTo(lmap);
+  map_ok=true;
+
+  const seto=DAYS.slice(0,9).map(d=>[d.lat,d.lng]);
+  const kyu=DAYS.slice(8).map(d=>[d.lat,d.lng]);
+  routeLines.push(L.polyline(seto,{color:'#4C93B4',weight:3,opacity:.85,dashArray:'2 9',lineCap:'round',className:'atlas-route'}).addTo(lmap));
+  routeLines.push(L.polyline(kyu,{color:'#2E8B6A',weight:3,opacity:.85,dashArray:'2 9',lineCap:'round',className:'atlas-route'}).addTo(lmap));
+
+  DAYS.forEach((d,i)=>{
+    const m=L.marker([d.lat,d.lng],{icon:makePinIcon(d,d.code),riseOnHover:true,zIndexOffset:i*2}).addTo(lmap);
+    m.bindTooltip(d.station||d.title,{direction:'top',className:'atlas-tip',offset:[0,-2]});
+    m.on('click',()=>{cancelTour();selectDay(i)});
+    markers.push(m);
+  });
+  optMarker=L.marker([OPTIONAL.lat,OPTIONAL.lng],{icon:makePinIcon(OPTIONAL,OPTIONAL.code),zIndexOffset:60});
+  optMarker.bindTooltip(OPTIONAL.station||'熊本可选',{direction:'top',className:'atlas-tip',offset:[0,-2]});
+  optMarker.on('click',()=>{cancelTour();kumamotoOn=true;syncKumamotoBtn();showOptional(true);selectOptional()});
+  optLine=L.polyline([[DAYS[12].lat,DAYS[12].lng],[OPTIONAL.lat,OPTIONAL.lng]],{color:'#6E7E89',weight:2,opacity:.7,dashArray:'3 8'});
+
+  // 滚轮缩放仅在点击地图后启用，避免劫持页面滚动
+  const el=lmap.getContainer();
+  el.addEventListener('click',()=>lmap.scrollWheelZoom.enable());
+  el.addEventListener('mouseleave',()=>lmap.scrollWheelZoom.disable());
+  lmap.on('dragstart wheel',cancelTour);
+
+  resetCamera();
+  selectDay(0,true);
+}
+
+function setPinActive(idx){
+  markers.forEach((m,i)=>{const el=m.getElement();if(el){const p=el.querySelector('.pin');if(p)p.classList.toggle('active',i===idx)}});
+  if(optMarker){const el=optMarker.getElement();if(el){const p=el.querySelector('.pin');if(p)p.classList.toggle('active',idx==='kumamoto')}}
+}
+
+function selectDay(i,noFly){
   currentIndex=i;
-  const d=DAYS[i];
-  renderPanel(d);
-  if(!three_ok)return;
-  if(activePulse)activePulse.position.set(d.x,.27,d.z);
-  nodeGroups.forEach((g,idx)=>tweenScale(g,idx===i?1.18:1));
-  if(optionalGroup)tweenScale(optionalGroup,1);
-  if(!flight)tweenTarget(new THREE.Vector3(d.x*.45,0,d.z*.45));
+  renderPanel(DAYS[i]);
+  if(!map_ok)return;
+  setPinActive(i);
   updateModeVisuals();
+  if(!noFly){const d=DAYS[i];lmap.flyTo([d.lat,d.lng],Math.max(lmap.getZoom(),8),{duration:.8});}
 }
 function selectOptional(){
   currentIndex='kumamoto';
   renderPanel(OPTIONAL);
-  if(!three_ok)return;
-  if(activePulse)activePulse.position.set(OPTIONAL.x,.27,OPTIONAL.z);
-  nodeGroups.forEach(g=>tweenScale(g,1));
-  if(optionalGroup)tweenScale(optionalGroup,1.18);
-  if(!flight)tweenTarget(new THREE.Vector3(OPTIONAL.x*.45,0,OPTIONAL.z*.45));
+  if(!map_ok)return;
+  setPinActive('kumamoto');
   updateModeVisuals();
+  lmap.flyTo([OPTIONAL.lat,OPTIONAL.lng],Math.max(lmap.getZoom(),8),{duration:.8});
 }
-function selectDayLite(i){
-  currentIndex=i;
-  renderPanel(DAYS[i]);
-  if(activePulse)activePulse.position.set(DAYS[i].x,.27,DAYS[i].z);
-  nodeGroups.forEach((g,idx)=>g.scale.setScalar(idx===i?1.16:1));
+function showOptional(v){
+  if(!map_ok)return;
+  if(v){optMarker.addTo(lmap);optLine.addTo(lmap);}
+  else{lmap.removeLayer(optMarker);lmap.removeLayer(optLine);}
 }
 function updateModeVisuals(){
-  if(!three_ok)return;
-  const all=nodeGroups.concat([optionalGroup]);
-  all.forEach((g,idx)=>{
-    if(!g)return;
-    const d=idx===nodeGroups.length?OPTIONAL:DAYS[idx];
-    const m=g.children[0].material;
-    let c=nodeColor(d);
-    if(currentMode==='risk'){c=d.risk==='high'?PAL.risk:d.risk==='medium'?PAL.gold:PAL.setouchi}
-    else if(currentMode==='luggage'){
-      const s=d.luggage||'';
-      c=s.includes('禁止')?PAL.risk:s.includes('寄存')?PAL.gold:s.includes('小包')?PAL.kyushu:PAL.mist;
-    }
-    m.color.setHex(c);m.emissive.setHex(c);
-  });
-  routeMeshes.forEach(m=>{m.material.opacity=currentMode==='route'?.95:.3});
+  if(!map_ok)return;
+  markers.forEach((m,i)=>{const el=m.getElement();if(!el)return;const p=el.querySelector('.pin');if(p)p.style.setProperty('--pin',modeColor(DAYS[i]))});
+  if(optMarker){const el=optMarker.getElement();if(el){const p=el.querySelector('.pin');if(p)p.style.setProperty('--pin',modeColor(OPTIONAL))}}
+  routeLines.forEach(l=>l.setStyle({opacity:currentMode==='route'?.85:.3}));
 }
 
-/* 起航：低空巡航镜头 */
+/* 起航：沿航线依次飞览 */
 function setPlayBtn(on){const b=document.getElementById('playRoute');if(b)b.textContent=on?'停航 · 任意操作可中断':'起航 · 播放旅程'}
-function showCaption(d){
-  const c=document.getElementById('flyCaption');if(!c)return;
-  c.querySelector('.fk').textContent=(d.code?d.code+' · ':'')+(d.kicker||'');
-  c.querySelector('.ft').textContent=d.title;
-  c.classList.add('show');
-}
+function showCaption(d){const c=document.getElementById('flyCaption');if(!c)return;c.querySelector('.fk').textContent=d.kicker||d.code||'';c.querySelector('.ft').textContent=(d.code?d.code+'｜':'')+(d.title||'');c.classList.add('show')}
 function hideCaption(){const c=document.getElementById('flyCaption');if(c)c.classList.remove('show')}
+function cancelTour(){if(tour){clearInterval(tour);tour=null;setPlayBtn(false);setTimeout(hideCaption,1200)}}
 function playRoute(){
-  if(!three_ok)return;
-  if(flight){cancelFlight();return}
-  if(REDUCED){stepTour();return}
-  const n=DAYS.length;
-  const camPts=DAYS.map((d,i)=>{
-    const ahead=DAYS[Math.min(n-1,i+1)];
-    const dir=new THREE.Vector3(ahead.x-d.x,0,ahead.z-d.z);
-    if(dir.lengthSq()<1e-4)dir.set(-1,0,0);
-    dir.normalize();
-    return new THREE.Vector3(d.x-dir.x*1.9,1.55+(i%2)*.25,d.z-dir.z*1.9+.95);
-  });
-  const lookPts=DAYS.map(d=>new THREE.Vector3(d.x,.25,d.z));
-  flight={
-    curve:new THREE.CatmullRomCurve3(camPts,false,'catmullrom',.3),
-    look:new THREE.CatmullRomCurve3(lookPts,false,'catmullrom',.3),
-    t0:performance.now(),dur:n*2500,lastStop:-1
+  if(!map_ok)return;
+  if(tour){cancelTour();return}
+  const seq=DAYS.map((d,i)=>i).concat(kumamotoOn?['kumamoto']:[]);
+  let k=0;setPlayBtn(true);
+  const go=()=>{
+    const id=seq[k];
+    if(id==='kumamoto'){showCaption(OPTIONAL);selectOptional();}
+    else{showCaption(DAYS[id]);selectDay(id);}
+    k++;
+    if(k>=seq.length){clearInterval(tour);tour=null;setPlayBtn(false);setTimeout(hideCaption,1800);}
   };
-  setPlayBtn(true);
+  go();tour=setInterval(go,1700);
 }
-function updateFlight(now){
-  if(!flight)return;
-  const p=Math.min(1,(now-flight.t0)/flight.dur);
-  camera.position.copy(flight.curve.getPoint(p));
-  camera.lookAt(flight.look.getPoint(Math.min(1,p+.012)));
-  const stop=Math.min(DAYS.length-1,Math.floor(p*(DAYS.length-1)+.0001));
-  if(stop!==flight.lastStop){flight.lastStop=stop;showCaption(DAYS[stop]);selectDayLite(stop)}
-  if(p>=1)endFlight();
-}
-function endFlight(){
-  flight=null;setPlayBtn(false);
-  setTimeout(hideCaption,1500);
-  syncOrbitFromCamera();
-  resetCameraTween();
-}
-function cancelFlight(){
-  if(!flight)return;
-  flight=null;setPlayBtn(false);hideCaption();
-  syncOrbitFromCamera();
-}
-function stepTour(){
-  let k=0;
-  const iv=setInterval(()=>{
-    selectDay(k);showCaption(DAYS[k]);k++;
-    if(k>=DAYS.length){clearInterval(iv);setTimeout(hideCaption,1600)}
-  },1500);
-}
-function resetCamera(){cancelFlight();resetCameraTween()}
-function resetCameraTween(){
-  const f={theta:orbit.theta,phi:orbit.phi,radius:orbit.radius,t:orbit.target.clone()};
-  const h=orbit.home,zero=new THREE.Vector3(0,0,0);
-  tween(900,p=>{
-    const e=easeOut(p);
-    orbit.theta=f.theta+(h.theta-f.theta)*e;
-    orbit.phi=f.phi+(h.phi-f.phi)*e;
-    orbit.radius=f.radius+(h.radius-f.radius)*e;
-    orbit.target.lerpVectors(f.t,zero,e);
-    applyOrbit();
-  });
+function resetCamera(){
+  cancelTour();hideCaption();
+  if(!map_ok)return;
+  const pts=DAYS.map(d=>[d.lat,d.lng]);
+  if(kumamotoOn)pts.push([OPTIONAL.lat,OPTIONAL.lng]);
+  lmap.fitBounds(L.latLngBounds(pts),{padding:[55,55],maxZoom:9});
 }
 
-/* 尺寸与主循环 */
-function resizeMap(){
-  const map=document.querySelector('.atlas-map');
-  if(!map||!renderer)return;
-  const r=map.getBoundingClientRect();
-  renderer.setSize(r.width,Math.max(1,r.height),false);
-  camera.aspect=r.width/Math.max(1,r.height);
-  camera.updateProjectionMatrix();
-}
-function animate(now){
-  requestAnimationFrame(animate);
-  now=now||performance.now();
-  const dt=mapClock?mapClock.getDelta():.016;
-  uTime+=dt;
-  if(water)water.material.uniforms.uT.value=uTime;
-  if(contourTex){contourTex.offset.x=(uTime*.004)%1;contourTex.offset.y=(uTime*.0023)%1}
-  if(ferry&&routeFull){
-    const t=(uTime*.018)%1;
-    const p=routeFull.getPoint(t);
-    ferry.position.set(p.x,p.y+.05,p.z);
-    ferry.material.opacity=.55+Math.sin(uTime*3)*.2;
-  }
-  nodeGroups.forEach((g,i)=>{g.position.y=.24+Math.sin(uTime*1.3+i)*.012});
-  if(optionalGroup)optionalGroup.position.y=.24+Math.sin(uTime*1.3+7)*.012;
-  if(activePulse){activePulse.scale.setScalar(1+Math.sin(uTime*3.4)*.09);activePulse.material.opacity=.5+Math.sin(uTime*3.4)*.22}
-  glowMats.forEach((m,i)=>{m.opacity=.3+Math.sin(uTime*2.2+i)*.14});
-  runTweens(now);
-  updateFlight(now);
-  renderer.render(scene,camera);
-}
 
 /* ───────── 西国航路 · UI 层 2：日卡 / 清单 / 动效 / 分享 / 启动 ───────── */
 function renderRail(){
@@ -1232,18 +814,14 @@ function heroIn(){
   });
 }
 
-/* 平滑滚动 */
-function initLenis(){
-  if(!window.Lenis||REDUCED)return;
-  try{
-    const lenis=new Lenis({duration:1.05,smoothWheel:true});
-    document.documentElement.classList.add('lenis-on');
-    (function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(performance.now());
-    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-      const el=document.querySelector(a.getAttribute('href'));
-      if(el){e.preventDefault();lenis.scrollTo(el,{offset:-72})}
-    }));
-  }catch(e){}
+/* 锚点平滑滚动（原生，无阻尼层） */
+function initAnchors(){
+  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+    const href=a.getAttribute('href');if(href==='#'||href.length<2)return;
+    const el=document.querySelector(href);
+    if(el){e.preventDefault();const y=el.getBoundingClientRect().top+window.pageYOffset-72;
+      window.scrollTo({top:y,behavior:REDUCED?'auto':'smooth'});}
+  }));
 }
 
 /* 二维码分享 */
@@ -1289,9 +867,9 @@ function initSW(){
 /* 启动序列 */
 configureGeography();
 injectIcons();initBoard();renderRail();renderDayList();renderChecklist();renderPanel(DAYS[0]);
-initTabsAndButtons();initReveals();heroIn();initLenis();initWeather();initQR();initSW();paintNet();
-(function bootThree(){
-  const go=()=>{try{initThree()}catch(err){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';if(window.console)console.error(err)}};
+initTabsAndButtons();initReveals();heroIn();initAnchors();initWeather();initQR();initSW();paintNet();
+(function bootMap(){
+  const go=()=>{try{initMap()}catch(err){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';if(window.console)console.error(err)}};
   if(document.fonts&&document.fonts.ready){Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1300))]).then(go)}
   else go();
 })();
