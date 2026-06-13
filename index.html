@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>西国航路 · 日本西部14日航海图册</title>
+<meta name="description" content="濑户内海—北九州 14 日旅行航海图：立体海图、每日时刻线、逐站天气、风险与行李策略、JR Pass 方案。">
+<meta name="theme-color" content="#0A1C2E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --night:#0A1C2E; --night2:#0E2438; --abyss:#071421; --nightline:#1B3650;
+  --mist:#7FB3C8; --mist-dim:#52768B; --mist-faint:#34536A;
+  --paper:#F4EEE1; --paper2:#FBF7EC; --card:#FFFCF3;
+  --ink:#16293A; --muted:#6E7E89;
+  --verm:#C9472B; --verm-soft:#E8957F; --verm-deep:#9C3520;
+  --gold:#B8923E; --kyu:#2E8B6A;
+  --line:#E0D5BE; --line2:#CFC2A4;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Consolas,'Courier New',monospace;
+  --serif:'Noto Serif SC','Songti SC',STSong,SimSun,serif;
+  --sans:'Noto Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+  --contour-dark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300' viewBox='0 0 460 300'%3E%3Cg fill='none' stroke='%2316314A' stroke-width='1'%3E%3Cpath d='M-20 50C70 18 160 74 250 42S420 64 480 36'/%3E%3Cpath d='M-20 105C80 70 170 126 260 94S430 116 480 88'/%3E%3Cpath d='M-20 162C75 128 168 182 258 150S425 172 480 146'/%3E%3Cpath d='M-20 220C82 186 172 240 262 208S432 230 480 204'/%3E%3Cpath d='M-20 278C78 244 170 296 260 264S428 288 480 262'/%3E%3C/g%3E%3C/svg%3E");
+  --contour-light:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='300' viewBox='0 0 460 300'%3E%3Cg fill='none' stroke='%23DCD0B6' stroke-width='1' opacity='.55'%3E%3Cpath d='M-20 50C70 18 160 74 250 42S420 64 480 36'/%3E%3Cpath d='M-20 105C80 70 170 126 260 94S430 116 480 88'/%3E%3Cpath d='M-20 162C75 128 168 182 258 150S425 172 480 146'/%3E%3Cpath d='M-20 220C82 186 172 240 262 208S432 230 480 204'/%3E%3Cpath d='M-20 278C78 244 170 296 260 264S428 288 480 262'/%3E%3C/g%3E%3C/svg%3E");
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html.lenis-on{scroll-behavior:auto}
+body{margin:0;font-family:var(--sans);background:var(--paper);background-image:var(--contour-light);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--verm);color:var(--paper)}
+.wrap{width:min(1240px,calc(100% - 40px));margin:0 auto}
+.serif{font-family:var(--serif)}
+.mono{font-family:var(--mono)}
+
+/* ── topbar ───────────────────────────── */
+.topbar{position:sticky;top:0;z-index:90;background:rgba(7,20,33,.86);border-bottom:1px solid rgba(127,179,200,.16);backdrop-filter:blur(14px)}
+.nav{height:64px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(201,71,43,.55);border-radius:9px;background:rgba(201,71,43,.10)}
+.brand-mark svg{width:20px;height:20px;display:block}
+.brand-text{display:flex;flex-direction:column;line-height:1.12}
+.brand-text b{font-family:var(--serif);font-weight:900;font-size:17px;color:#F4EEE1;letter-spacing:.14em}
+.brand-text small{font-family:var(--mono);font-size:9px;letter-spacing:.34em;color:var(--mist-dim)}
+.navlinks{display:flex;gap:4px;flex-wrap:wrap}
+.navlinks a{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--mist);padding:7px 10px;border-radius:7px;border:1px solid transparent;transition:.25s}
+.navlinks a:hover{color:#F4EEE1;border-color:rgba(127,179,200,.32);background:rgba(127,179,200,.07)}
+.share-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:#F4EEE1;background:transparent;border:1px solid rgba(127,179,200,.4);border-radius:8px;padding:7px 13px;cursor:pointer;transition:.25s}
+.share-btn:hover{border-color:var(--verm);color:var(--verm-soft);background:rgba(201,71,43,.08)}
+.share-btn svg{width:14px;height:14px}
+
+/* ── hero ─────────────────────────────── */
+.hero{position:relative;background:var(--night);color:#F4EEE1;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background-image:var(--contour-dark);opacity:.8;mask-image:linear-gradient(to bottom,rgba(0,0,0,.9),rgba(0,0,0,.25) 90%)}
+.hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:rgba(127,179,200,.25)}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.08fr .92fr;gap:54px;align-items:center;padding:104px 0 84px;min-height:520px}
+.eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.34em;color:var(--mist);margin-bottom:26px;white-space:nowrap}
+.eyebrow:after{content:"";flex:0 0 64px;height:1px;background:var(--mist-faint)}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(56px,7.4vw,104px);line-height:1.02;letter-spacing:.045em;margin:0 0 10px;color:#F4EEE1}
+.hero-sub{font-family:var(--serif);font-size:clamp(17px,1.8vw,21px);letter-spacing:.3em;color:var(--mist);margin:0 0 24px}
+.hero-p{font-size:15.5px;color:#9FB6C6;max-width:520px;margin:0 0 30px}
+.hero-metrics{display:flex;gap:30px;margin:0 0 34px;flex-wrap:wrap}
+.hm b{display:block;font-family:var(--mono);font-weight:600;font-size:30px;color:#F4EEE1}
+.hm span{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--mist-dim)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+
+.primary-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--verm);color:#FBEAE4;border:1px solid var(--verm);border-radius:9px;padding:13px 24px;font-size:14.5px;font-weight:500;cursor:pointer;transition:.25s;letter-spacing:.04em}
+.primary-btn:hover{background:var(--verm-deep);border-color:var(--verm-deep);transform:translateY(-1px)}
+.ghost-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:9px;padding:13px 24px;font-size:14.5px;cursor:pointer;transition:.25s}
+.ghost-btn:hover{border-color:var(--verm);color:var(--verm)}
+.ghost-btn.light{color:var(--mist);border-color:rgba(127,179,200,.42)}
+.ghost-btn.light:hover{color:#F4EEE1;border-color:var(--mist)}
+
+/* departure board */
+.board{background:var(--abyss);border:1px solid var(--nightline);border-radius:16px;padding:22px 24px 20px;box-shadow:0 30px 80px rgba(2,8,14,.5);cursor:pointer;user-select:none}
+.board-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.3em;color:var(--mist-dim);padding-bottom:13px;border-bottom:1px solid var(--nightline);margin-bottom:15px}
+.ontime{display:flex;align-items:center;gap:6px;color:#4FBF8E;letter-spacing:.18em}
+.ontime i{width:7px;height:7px;border-radius:50%;background:#4FBF8E;box-shadow:0 0 8px #4FBF8E;animation:blink 2.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.board-day{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--verm-soft);margin-bottom:11px;transition:opacity .3s}
+.board-main{display:flex;flex-wrap:wrap;gap:4px;min-height:78px;align-content:flex-start;margin-bottom:13px}
+.fc{display:inline-grid;place-items:center;min-width:21px;height:34px;padding:0 3px;background:#10283D;border:1px solid #1D3A55;border-radius:5px;font-family:var(--mono);font-weight:600;font-size:17px;color:#EAF2F7;backface-visibility:hidden}
+.fc.gap{background:transparent;border-color:transparent;min-width:8px}
+.fc.tick{animation:flap .42s cubic-bezier(.3,.9,.4,1) backwards}
+@keyframes flap{0%{transform:rotateX(92deg);background:#0B1D2E;color:#3D6379}55%{transform:rotateX(-14deg)}100%{transform:rotateX(0)}}
+.board-sub{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--mist-dim);min-height:34px;transition:opacity .3s}
+.board-dots{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.bdot{width:18px;height:4px;border-radius:2px;background:#1B3650;transition:.3s}
+.bdot.on{background:var(--verm)}
+
+/* ── sections ─────────────────────────── */
+.section{padding:96px 0 30px}
+.section:last-of-type{padding-bottom:96px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;margin-bottom:38px}
+.chart-no{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--verm);margin-bottom:14px}
+.chart-no:after{content:"";width:54px;height:1px;background:var(--line2)}
+.section-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,3.4vw,42px);letter-spacing:.06em;line-height:1.16;margin:0 0 12px;color:var(--ink)}
+.section-sub{font-size:14.5px;color:var(--muted);max-width:680px;margin:0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;transition:transform .3s,border-color .3s}
+.panel:hover{border-color:var(--mist)}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+
+/* overview */
+.overview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.overview-card{padding:24px 22px}
+.overview-card .big{font-family:var(--serif);font-weight:900;font-size:27px;margin:10px 0 8px;color:var(--ink)}
+.overview-card p{margin:0;font-size:13.5px;color:var(--muted)}
+
+/* route rail */
+.route{padding:34px 28px;display:flex;flex-wrap:wrap;align-items:flex-start;row-gap:30px}
+.station{display:flex;align-items:center;flex:0 0 auto}
+.station>div:first-child{display:flex;flex-direction:column;align-items:center;gap:9px;width:72px}
+.st-ico{width:46px;height:46px;border-radius:50%;background:var(--paper2);border:1.5px solid var(--line2);display:grid;place-items:center;color:var(--ink);transition:.3s}
+.st-ico svg{width:26px;height:26px}
+.station:hover .st-ico{transform:translateY(-3px);border-color:var(--mist-dim)}
+.station.risk .st-ico{border-color:var(--verm);box-shadow:0 0 0 4px rgba(201,71,43,.1)}
+.station.kyushu .st-ico{border-color:var(--kyu)}
+.station.hub .st-ico{border-color:var(--ink);border-width:2px}
+.station.optional .st-ico{border-style:dashed;color:var(--muted)}
+.station-name{font-size:12.5px;font-weight:500;letter-spacing:.04em;white-space:nowrap}
+.station.optional .station-name{color:var(--muted)}
+.station .rail{width:34px;height:0;border-top:2px dashed var(--line2);margin:0 2px 26px}
+.station.kyushu .rail{border-color:rgba(46,139,106,.55)}
+.dot{display:none}
+
+/* atlas */
+.atlas-shell{display:grid;grid-template-columns:1.58fr 1fr;gap:22px;align-items:stretch}
+.atlas-board{position:relative}
+.atlas-map{position:relative;height:clamp(560px,74vh,780px);background:var(--night);border:1px solid var(--nightline);border-radius:18px;overflow:hidden}
+.atlas-map:before{content:"";position:absolute;inset:0;background-image:var(--contour-dark);opacity:.5;pointer-events:none;z-index:0}
+#atlasCanvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;cursor:grab;z-index:1}
+#atlasCanvas:active{cursor:grabbing}
+.fallback-map{display:none;position:absolute;inset:0;place-items:center;text-align:center;color:var(--mist);padding:40px;z-index:2}
+.fallback-map h3{font-family:var(--serif);color:#F4EEE1}
+.atlas-top{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:12px;z-index:5;pointer-events:none;flex-wrap:wrap}
+.modebar{display:flex;gap:7px;pointer-events:auto;flex-wrap:wrap}
+.mode-btn,.mini-btn{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--mist);background:rgba(7,20,33,.78);border:1px solid var(--nightline);border-radius:8px;padding:8px 13px;cursor:pointer;backdrop-filter:blur(8px);transition:.25s}
+.mode-btn:hover,.mini-btn:hover{color:#F4EEE1;border-color:var(--mist-dim)}
+.mode-btn.active{background:var(--verm);border-color:var(--verm);color:#FBEAE4}
+.legend{position:absolute;left:16px;bottom:74px;display:flex;flex-direction:column;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--mist);background:rgba(7,20,33,.72);border:1px solid var(--nightline);border-radius:10px;padding:12px 14px;z-index:5;backdrop-filter:blur(8px)}
+.legend i{display:inline-block;width:16px;height:4px;border-radius:2px;margin-right:8px;vertical-align:middle}
+.c-blue{background:var(--mist)}.c-green{background:var(--kyu)}.c-gold{background:var(--verm)}.c-gray{background:#5A6B78}
+.atlas-note,.atlas-chip{position:absolute;right:16px;z-index:5;max-width:300px;background:rgba(7,20,33,.78);border:1px solid var(--nightline);border-radius:10px;padding:12px 14px;font-size:11.5px;line-height:1.65;color:var(--mist);backdrop-filter:blur(8px)}
+.atlas-note{bottom:140px}
+.atlas-chip{bottom:74px}
+.atlas-note b,.atlas-chip b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--verm-soft);margin-bottom:5px}
+.day-rail{position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:6px;overflow-x:auto;z-index:5;padding:2px;scrollbar-width:none}
+.day-rail::-webkit-scrollbar{display:none}
+.rail-day{flex:0 0 auto;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--mist);background:rgba(7,20,33,.8);border:1px solid var(--nightline);border-radius:7px;padding:8px 12px;cursor:pointer;transition:.25s}
+.rail-day:hover{color:#F4EEE1}
+.rail-day.active{background:#F4EEE1;color:var(--night);border-color:#F4EEE1;font-weight:600}
+.rail-day.optional{border-style:dashed}
+#flyCaption{position:absolute;left:50%;bottom:88px;transform:translateX(-50%) translateY(8px);z-index:6;text-align:center;pointer-events:none;opacity:0;transition:opacity .45s,transform .45s;max-width:80%}
+#flyCaption.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#flyCaption .fk{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--verm-soft);margin-bottom:6px}
+#flyCaption .ft{font-family:var(--serif);font-weight:900;font-size:clamp(22px,2.6vw,32px);color:#F4EEE1;text-shadow:0 4px 24px rgba(2,8,14,.8);letter-spacing:.08em}
+
+/* atlas side panel */
+.atlas-panel{display:flex;flex-direction:column;overflow:hidden}
+.panel-cover{height:10px;background:var(--night);border-bottom:1px solid var(--line)}
+.panel-visual{background:var(--night);background-image:var(--contour-dark);padding:18px 22px 16px;color:#F4EEE1}
+.panel-visual h4{margin:0 0 12px;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.3em;color:var(--mist-dim);text-transform:uppercase}
+.panel-landmark{display:flex;gap:14px;align-items:center}
+.panel-landmark-badge{width:58px;height:58px;flex:0 0 auto;border-radius:14px;background:rgba(127,179,200,.1);border:1px solid var(--nightline);display:grid;place-items:center;color:var(--mist)}
+.panel-landmark-badge svg{width:34px;height:34px}
+.panel-landmark-copy b{display:block;font-family:var(--serif);font-weight:900;font-size:19px;letter-spacing:.08em;margin-bottom:3px}
+.panel-landmark-copy span{font-family:var(--mono);font-size:11px;color:var(--mist-dim);letter-spacing:.04em}
+.panel-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:13px;flex:1;overflow-y:auto}
+.panel-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--verm)}
+.panel-title{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.04em;margin:0}
+.panel-summary{margin:0;font-size:13.5px;color:var(--muted)}
+.wx-row{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--mist-dim);min-height:20px}
+.wx{display:inline-flex;align-items:center;gap:6px;color:var(--ink);background:var(--paper2);border:1px solid var(--line);border-radius:7px;padding:4px 9px;font-family:var(--mono);font-size:11.5px}
+.wx svg{width:15px;height:15px}
+.wx.na{color:var(--muted);border-style:dashed}
+.badge-row{display:flex;gap:7px;flex-wrap:wrap}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;border:1px solid var(--line2);border-radius:6px;padding:4px 9px;color:var(--muted)}
+.badge.high{border-color:var(--verm);color:var(--verm)}
+.badge.kyushu{border-color:var(--kyu);color:var(--kyu)}
+.badge.optional{border-style:dashed}
+.badge.low{border-color:var(--mist-dim);color:var(--mist-dim)}
+.tabbar{display:flex;gap:5px;border-bottom:1px solid var(--line);padding-bottom:0}
+.tab-btn{font-family:var(--mono);font-size:12px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:8px 11px;cursor:pointer;transition:.2s}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--verm);border-bottom-color:var(--verm)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+.time-item{display:grid;grid-template-columns:86px 1fr;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.time-item:last-child{border-bottom:none}
+.time-item b{font-family:var(--mono);font-weight:600;font-size:12px;color:var(--verm-deep);white-space:nowrap}
+.time-item span{color:#3D4F5E}
+.info-card{background:var(--paper2);border:1px solid var(--line);border-radius:9px;padding:13px 15px;font-size:13px}
+.info-card b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--verm);margin-bottom:5px}
+.info-card p{margin:0;color:#3D4F5E}
+.panel-actions{display:flex;gap:10px;margin-top:auto;padding-top:6px}
+.panel-actions .primary-btn,.panel-actions .ghost-btn{padding:11px 16px;font-size:13px;flex:1}
+
+/* decisions */
+.decision-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.decision{position:relative;padding:22px 20px}
+.decision .label{position:absolute;top:0;right:18px;transform:translateY(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.2em;background:var(--ink);color:var(--paper);border-radius:5px;padding:4px 9px}
+.decision.risk .label{background:var(--verm)}
+.decision.optional .label{background:var(--muted)}
+.decision.reserve .label,.decision.pass .label{background:var(--gold)}
+.decision.kyushu .label{background:var(--kyu)}
+.decision.setouchi .label{background:var(--mist-dim)}
+.decision.luggage .label{background:var(--night2)}
+.decision h3{font-family:var(--serif);font-weight:900;font-size:19px;letter-spacing:.03em;margin:7px 0 9px}
+.decision p{margin:0;font-size:13px;color:var(--muted)}
+
+/* day tickets */
+.days{display:flex;flex-direction:column;gap:16px}
+.day-card{position:relative;display:grid;grid-template-columns:108px 1fr;overflow:hidden}
+.day-card:before,.day-card:after{content:"";position:absolute;left:97px;width:22px;height:22px;border-radius:50%;background:var(--paper);border:1px solid var(--line);z-index:2}
+.day-card:before{top:-12px}
+.day-card:after{bottom:-12px}
+.day-stub{background:var(--paper2);border-right:2px dashed var(--line2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px 8px;text-align:center}
+.day-stub .ico{width:40px;height:40px;color:var(--ink)}
+.day-stub .ico svg{width:100%;height:100%}
+.day-stub .code{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.06em}
+.day-stub .seg{font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--muted);writing-mode:vertical-rl}
+.day-card.high .day-stub{border-right-color:rgba(201,71,43,.5)}
+.day-card.high .day-stub .ico{color:var(--verm)}
+.day-card.kyushu .day-stub .ico{color:var(--kyu)}
+.day-main{min-width:0}
+.day-head{width:100%;display:flex;align-items:flex-start;gap:16px;background:none;border:none;text-align:left;padding:20px 22px;cursor:pointer}
+.day-title{flex:1;min-width:0}
+.day-title h3{font-family:var(--serif);font-weight:900;font-size:19px;letter-spacing:.03em;margin:5px 0 7px}
+.day-title p{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.day-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.chev{font-size:17px;color:var(--muted);transition:transform .3s;margin-top:4px}
+.day-card.open .chev{transform:rotate(180deg)}
+.day-body{display:none;padding:0 22px 22px;border-top:1px dashed var(--line)}
+.day-card.open .day-body{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;padding-top:18px}
+.day-infos{display:flex;flex-direction:column;gap:10px}
+.stamp{position:absolute;right:20px;top:16px;width:62px;height:62px;border:2.5px solid rgba(201,71,43,.85);border-radius:50%;display:grid;place-items:center;transform:rotate(-10deg) scale(1.7);opacity:0;font-family:var(--serif);font-weight:900;font-size:14px;letter-spacing:.06em;color:var(--verm);pointer-events:none;line-height:1.2;text-align:center;padding:4px}
+.stamp small{display:block;font-family:var(--mono);font-weight:400;font-size:7.5px;letter-spacing:.14em}
+.stamp.stamped{transition:transform .4s cubic-bezier(.2,1.6,.4,1),opacity .3s;transform:rotate(-10deg) scale(1);opacity:.88}
+
+/* risk & pass */
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.risk-card{padding:22px 20px}
+.risk-level{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;border-radius:5px;padding:4px 9px}
+.risk-level.high{background:var(--verm);color:#FBEAE4}
+.risk-level.medium{background:var(--gold);color:#FFF8E8}
+.risk-card h3{font-family:var(--serif);font-weight:900;font-size:18px;margin:13px 0 9px}
+.risk-card p{margin:0 0 7px;font-size:13px;color:var(--muted)}
+.risk-card p b{color:var(--ink);font-weight:600}
+.pass-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pass-card{padding:26px 24px}
+.pass-card h3{font-family:var(--serif);font-weight:900;font-size:20px;margin:9px 0 7px}
+.pass-price{font-family:var(--mono);font-weight:600;font-size:29px;color:var(--verm);margin:5px 0 11px}
+.pass-card p{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+.tags{display:flex;gap:7px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;border:1px solid var(--line2);border-radius:6px;padding:4px 9px;color:var(--muted)}
+.tag.high{border-color:var(--verm);color:var(--verm)}
+.tag.kyushu{border-color:var(--kyu);color:var(--kyu)}
+.tag.optional{border-style:dashed}
+
+/* table */
+.table-wrap{padding:8px 0;overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+.data-table th{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.14em;color:var(--muted);text-align:left;padding:14px 18px;border-bottom:1px solid var(--line2)}
+.data-table td{padding:13px 18px;border-bottom:1px dashed var(--line);color:#3D4F5E;vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table td:first-child{font-family:var(--mono);font-size:12px;white-space:nowrap;color:var(--ink)}
+
+/* checklist */
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 17px;cursor:pointer;font-size:13.5px;transition:.25s}
+.check:hover{border-color:var(--mist)}
+.check input{appearance:none;width:19px;height:19px;flex:0 0 auto;margin-top:1px;border:1.5px solid var(--line2);border-radius:5px;cursor:pointer;position:relative;transition:.2s;background:var(--paper2)}
+.check input:checked{background:var(--verm);border-color:var(--verm)}
+.check input:checked:after{content:"";position:absolute;left:5.5px;top:2px;width:5px;height:9px;border:solid #FBEAE4;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.check input:checked+span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(201,71,43,.5)}
+
+/* footer */
+.footer{background:var(--night);background-image:var(--contour-dark);color:var(--mist);padding:52px 0;margin-top:40px;border-top:1px solid var(--nightline)}
+.foot-grid{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.foot-grid b{font-family:var(--serif);font-weight:900;font-size:21px;letter-spacing:.14em;color:#F4EEE1;display:block;margin-bottom:5px}
+.foot-grid p{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--mist-dim)}
+.foot-actions{display:flex;align-items:center;gap:14px}
+.foot-actions button{font-family:var(--mono);font-size:12px;color:var(--mist);background:transparent;border:1px solid rgba(127,179,200,.4);border-radius:8px;padding:9px 16px;cursor:pointer;transition:.25s}
+.foot-actions button:hover{color:#F4EEE1;border-color:var(--verm)}
+#netState{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--mist-dim)}
+
+/* qr modal */
+.qr-modal{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(7,20,33,.7);backdrop-filter:blur(6px)}
+.qr-modal[hidden]{display:none}
+.qr-card{background:var(--paper);border-radius:16px;padding:30px 34px;text-align:center;max-width:320px;border:1px solid var(--line)}
+.qr-card h3{font-family:var(--serif);font-weight:900;margin:0 0 16px;letter-spacing:.1em}
+#qrBox{display:grid;place-items:center;min-height:200px;background:var(--paper2);border-radius:10px;padding:14px;margin-bottom:14px}
+#qrBox img,#qrBox canvas{border-radius:6px}
+#qrNote{font-size:12px;color:var(--muted);margin:0 0 18px;font-family:var(--mono);line-height:1.6}
+#qrClose{width:100%}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:1080px){
+  .hero-inner{grid-template-columns:1fr;gap:38px;padding:80px 0 64px}
+  .atlas-shell{grid-template-columns:1fr}
+  .atlas-map{height:min(560px,82vw)}
+  .atlas-note{display:none}
+  .overview-grid,.decision-grid{grid-template-columns:repeat(2,1fr)}
+  .risk-grid{grid-template-columns:1fr 1fr}
+  .navlinks{display:none}
+}
+@media (max-width:640px){
+  .section{padding:64px 0 18px}
+  .overview-grid,.decision-grid,.risk-grid,.pass-grid,.checklist{grid-template-columns:1fr}
+  .day-card{grid-template-columns:78px 1fr}
+  .day-card:before,.day-card:after{left:67px}
+  .day-card.open .day-body{grid-template-columns:1fr}
+  .stamp{display:none}
+  .atlas-chip{display:none}
+  .hero-metrics{gap:20px}
+  .fc{min-width:17px;height:29px;font-size:14px}
+  .time-item{grid-template-columns:74px 1fr}
+}
+@media print{
+  .topbar,.atlas-board,.hero-cta,.share-btn,.footer,.board{display:none!important}
+  body{background:white}
+  .day-body{display:grid!important}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+  .stamp{opacity:.88;transform:rotate(-10deg) scale(1)}
+}
+
+</style>
+</head>
+<body>
+
+<header class="topbar"><div class="wrap nav">
+<a class="brand" href="#top"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#C9472B" stroke-width="2.1" stroke-linecap="round" aria-hidden="true"><path d="M3 6.5h18M5.2 10.5h13.6"/><path d="M7.4 10.5V19M16.6 10.5V19"/><path d="M12 6.5v4"/></svg></span><span class="brand-text"><b>西国航路</b><small>WEST JAPAN ATLAS</small></span></a>
+<nav class="navlinks"><a href="#overview">概览</a><a href="#route">航线</a><a href="#atlas">立体海图</a><a href="#decisions">决策</a><a href="#days">行程</a><a href="#risk">风险</a><a href="#pass">PASS</a><a href="#luggage">行李</a><a href="#checklist">清单</a></nav>
+<button class="share-btn" id="shareBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>分享</button>
+</div></header>
+<section class="hero" id="top"><div class="wrap hero-inner">
+<div class="hero-copy">
+<div class="eyebrow">SETOUCHI — KYUSHU · JUN 25 → JUL 8</div>
+<h1>西国航路</h1>
+<p class="hero-sub">日本西部十四日 · 航海图册</p>
+<p class="hero-p">从大阪出发，穿越濑户内海艺术岛、岛波海道、宫岛、北九州温泉与港口城市。一条被渡轮班次与潮汐表支配的航线——等深线之间，是十四天的决策。</p>
+<div class="hero-metrics">
+<div class="hm"><b data-count="14">0</b><span>旅行日</span></div>
+<div class="hm"><b data-count="18">0</b><span>路线节点</span></div>
+<div class="hm"><b data-count="2">0</b><span>JR PASS</span></div>
+<div class="hm"><b data-count="3">0</b><span>地图模式</span></div>
+</div>
+<div class="hero-cta"><a class="primary-btn" href="#atlas">进入立体海图</a><a class="ghost-btn light" href="#days">查看每日时刻</a></div>
+</div>
+<div class="board" id="departureBoard" role="button" tabindex="0" aria-label="发车牌，点击切换下一班">
+<div class="board-head"><span>DEPARTURES · 発車標</span><span class="ontime"><i></i>ON TIME</span></div>
+<div class="board-day" id="boardDay"></div>
+<div class="board-main" id="boardMain"></div>
+<div class="board-sub" id="boardSub"></div>
+<div class="board-dots" id="boardDots"></div>
+</div>
+</div></section>
+<main>
+<section class="section" id="overview"><div class="wrap"><div class="overview-grid">
+<div class="panel overview-card"><div class="kicker">Duration</div><div class="big">14天</div><p>大阪进，福冈出，不走回头路。</p></div>
+<div class="panel overview-card"><div class="kicker">Strategy</div><div class="big">轻装跳岛</div><p>大箱留城市，小包上岛和骑行。</p></div>
+<div class="panel overview-card"><div class="kicker">Core</div><div class="big">艺术 + 温泉</div><p>直岛、丰岛、宫岛、由布院、长崎。</p></div>
+<div class="panel overview-card"><div class="kicker">Mode</div><div class="big">主线 + 可选</div><p>熊本作为现场可切换模块。</p></div>
+</div></div></section><section class="section" id="route"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 01</span><h2 class="section-title">航线总览</h2><p class="section-sub">每一站一枚专属符号。虚线为濑户内海航路，绿段为九州主线，朱红圆环为高风险或潮汐窗口节点，虚线圆为熊本可选模块。</p></div></div><div class="panel route"><div class="station "><div><div class="st-ico" data-icon="city"></div><div class="station-name">大阪</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="castle"></div><div class="station-name">姬路</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="peach"></div><div class="station-name">冈山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="pumpkin"></div><div class="station-name">直岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="museum"></div><div class="station-name">丰岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="olive"></div><div class="station-name">小豆岛</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="harbor"></div><div class="station-name">高松</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="onsen_house"></div><div class="station-name">松山</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="bridge"></div><div class="station-name">今治</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="bike"></div><div class="station-name">尾道</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="momiji"></div><div class="station-name">广岛</div></div><div class="rail"></div></div><div class="station risk"><div><div class="st-ico" data-icon="torii"></div><div class="station-name">宫岛</div></div><div class="rail"></div></div><div class="station hub"><div><div class="st-ico" data-icon="train"></div><div class="station-name">博多</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="mountain"></div><div class="station-name">由布院</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="steam"></div><div class="station-name">别府</div></div><div class="rail"></div></div><div class="station kyushu"><div><div class="st-ico" data-icon="church"></div><div class="station-name">长崎</div></div><div class="rail"></div></div><div class="station "><div><div class="st-ico" data-icon="tower"></div><div class="station-name">福冈</div></div><div class="rail"></div></div><div class="station optional"><div><div class="st-ico" data-icon="castle_dark"></div><div class="station-name">熊本可选</div></div></div></div></div></section><section class="section" id="atlas"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 02</span><h2 class="section-title">西日本立体海图</h2><p class="section-sub">电影级海图：等深线海面持续呼吸，航路以发光航迹逐段画出，每一站立着微缩地标。拖拽旋转视角、滚轮缩放，点击「起航」进入低空巡航镜头。</p></div></div><div class="atlas-shell"><div class="atlas-board"><div class="atlas-map"><canvas id="atlasCanvas"></canvas><div class="fallback-map" id="fallbackMap"><div><h3>3D地图资源未能加载</h3><p>如果离线打开且无法载入 Three.js，请联网刷新，或继续查看下方完整行程。</p></div></div><div class="atlas-top"><div class="modebar"><button class="mode-btn active" data-mode="route">路线模式</button><button class="mode-btn" data-mode="risk">风险模式</button><button class="mode-btn" data-mode="luggage">行李模式</button><button class="mode-btn" id="kumamotoToggle">熊本支线 OFF</button></div><div class="modebar"><button class="mini-btn" id="playRoute">起航 · 播放旅程</button><button class="mini-btn" id="resetCamera">回到锚点</button></div></div><div class="legend"><div><i class="c-blue"></i>濑户内海主线</div><div><i class="c-green"></i>九州主线</div><div><i class="c-gold"></i>高风险 · 潮汐窗口</div><div><i class="c-gray"></i>熊本可选支线</div></div><div class="atlas-note"><b>海图操作</b>拖拽旋转 · 滚轮缩放 · 点击节点选中当天。起航模式沿航线低空巡航，任意操作即可中断。</div><div class="atlas-chip"><b>三种模式</b>风险模式将高风险日染为鸟居朱；行李模式区分轻装、寄存与禁止大箱；熊本支线可随时挂载。</div><div id="flyCaption"><div class="fk"></div><div class="ft"></div></div><div class="day-rail" id="dayRail"></div></div><aside class="atlas-panel"><div class="panel-cover"></div><div class="panel-visual"><h4>Selected destination</h4><div class="panel-landmark"><div class="panel-landmark-badge" id="panelLandmarkBadge"></div><div class="panel-landmark-copy"><b id="panelLandmarkTitle">西日本旅行地图</b><span id="panelLandmarkText">点击左侧节点，查看当天的主题、时间线、交通、风险与行李策略。</span></div></div></div><div class="panel-body"><div class="panel-kicker" id="panelKicker"></div><h3 class="panel-title" id="panelTitle"></h3><p class="panel-summary" id="panelSummary"></p><div class="badge-row" id="panelBadges"></div><div class="wx-row" id="panelWeather"></div><div class="tabbar"><button class="tab-btn active" data-tab="timeline">时间线</button><button class="tab-btn" data-tab="transport">交通</button><button class="tab-btn" data-tab="risk">风险</button><button class="tab-btn" data-tab="luggage">行李</button></div><div class="tab-pane active" id="tab-timeline"></div><div class="tab-pane" id="tab-transport"></div><div class="tab-pane" id="tab-risk"></div><div class="tab-pane" id="tab-luggage"></div><div class="panel-actions"><button class="primary-btn" id="jumpDay">查看完整日程</button><button class="ghost-btn" id="openAllNearby">展开全部行程</button></div></div></aside></div></div></div></section>
+<section class="section" id="decisions"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 03</span><h2 class="section-title">已敲定的执行决策</h2><p class="section-sub">这些不是说明文字，而是后续每天安排的约束条件。网页所有详细行程都按这些决策重排。</p></div></div><div class="decision-grid"><article class="panel decision risk"><span class="label">已确定</span><div class="kicker" style="margin-top:14px">7月3日</div><h3>宫岛后住博多</h3><p>不再当天硬接由布院，避免宫岛潮汐、新干线、由布院列车三者连锁风险。</p></article><article class="panel decision optional"><span class="label">可切换</span><div class="kicker" style="margin-top:14px">熊本</div><h3>默认不进主线</h3><p>保留熊本一日往返模块，想去时删除佐贺/有田并调整7月6日晚住宿。</p></article><article class="panel decision reserve"><span class="label">需预约</span><div class="kicker" style="margin-top:14px">由布院之森</div><h3>尽力预约</h3><p>优先抢票，但若无票则改YUFU或经小仓、大分方向，不让观光列车绑架行程。</p></article><article class="panel decision risk"><span class="label">分级执行</span><div class="kicker" style="margin-top:14px">岛波海道</div><h3>三级骑行</h3><p>低强度到大岛，中强度到伯方岛，满状态再推进到大三岛。</p></article><article class="panel decision setouchi"><span class="label">已确定</span><div class="kicker" style="margin-top:14px">小豆岛</div><h3>双核心</h3><p>橄榄公园和天使之路为主线，其余景点只作为不影响潮汐窗口的补充。</p></article><article class="panel decision kyushu"><span class="label">已删除</span><div class="kicker" style="margin-top:14px">军舰岛</div><h3>删除</h3><p>长崎改为市内历史、港口、夜景线，降低天气取消风险。</p></article><article class="panel decision luggage"><span class="label">需执行</span><div class="kicker" style="margin-top:14px">行李</div><h3>城市转运加站点寄存</h3><p>大箱留在城市节点，跳岛、温泉、骑行日只带小包。</p></article><article class="panel decision pass"><span class="label">建议购买</span><div class="kicker" style="margin-top:14px">Pass</div><h3>北九州5日券</h3><p>7月4日至7月8日更适合5日券，3日券会漏掉高价值移动日。</p></article></div></div></section>
+<section class="section" id="days"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 04</span><h2 class="section-title">完整每日行程</h2><p class="section-sub">这里保留逐日详细时间线。地图点击“查看完整日程”会跳到对应日期。</p></div><button class="primary-btn" id="collapseAll">收起全部</button></div><div class="days" id="dayList"></div></div></section>
+<section class="section" id="risk"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 05</span><h2 class="section-title">风险雷达</h2><p class="section-sub">风险不是为了吓人，而是把现场决策提前写清楚。每个风险点都有触发原因和降级方案。</p></div></div><div class="risk-grid"><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>直岛预约链</h3><p><b>为什么：</b>冈山、宇野、渡轮、地中美术馆时间相互绑定</p><p><b>处理：</b>地中美术馆预约后移到10:30或11:00，晚点时优先保地中</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>丰岛船班</h3><p><b>为什么：</b>错过上午船班会压缩丰岛美术馆和心脏音博物馆</p><p><b>处理：</b>心脏音博物馆作为第二优先级，可删</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>小豆岛潮汐</h3><p><b>为什么：</b>橄榄公园停留过久会挤占天使之路窗口</p><p><b>处理：</b>补充景点只在潮汐前后空档加入</p></article><article class="panel risk-card"><span class="risk-level high">高风险</span><h3>岛波骑行</h3><p><b>为什么：</b>雨、热、风、疲劳都会影响安全和尾道抵达</p><p><b>处理：</b>低、中、高三级目标，前一晚按天气决策</p></article><article class="panel risk-card"><span class="risk-level medium">中高风险</span><h3>宫岛接博多</h3><p><b>为什么：</b>潮汐和新干线划位共同决定节奏</p><p><b>处理：</b>7月3日只到博多，不再接由布院</p></article><article class="panel risk-card"><span class="risk-level medium">中风险</span><h3>由布院之森</h3><p><b>为什么：</b>观光列车高需求，可能满席</p><p><b>处理：</b>尽力抢票，无票改YUFU或经小仓、大分</p></article></div></div></section><section class="section" id="pass"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 06</span><h2 class="section-title">JR Pass与成本策略</h2><p class="section-sub">这里不追求把每一段票价精确到个位，而是确定购买逻辑和启用日期。</p></div></div><div class="pass-grid"><article class="panel pass-card"><div class="kicker">Setouchi Area Pass</div><h3>6月27日至7月3日启用</h3><div class="pass-price">22,000日元</div><p>核心价值是新大阪至冈山、四国、广岛、博多这一条主轴。不要为了关西机场到新大阪这段小交通提前启用。</p><div class="tags"><span class="tag">山阳新干线</span><span class="tag">宫岛渡轮</span><span class="tag high">小豆岛高速船不覆盖</span></div></article><article class="panel pass-card"><div class="kicker">Northern Kyushu Rail Pass</div><h3>建议5日券，7月4日至7月8日</h3><div class="pass-price">17,000日元</div><p>你的高价值移动日横跨7月4日至7月7日，3日券会漏掉一天，5日券更稳。若加熊本，一定更值得买。</p><div class="tags"><span class="tag kyushu">由布院</span><span class="tag kyushu">别府</span><span class="tag kyushu">长崎</span><span class="tag optional">熊本可选</span></div></article></div></div></section><section class="section" id="luggage"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 07</span><h2 class="section-title">行李转运与寄存策略</h2><p class="section-sub">网页采用城市转运、酒店寄存、站内投币柜、随身小包组合策略。离岛、宫岛和骑行日不要拖大箱。</p></div></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>日期</th><th>白天</th><th>夜宿</th><th>大箱</th><th>建议处理</th><th>备注</th></tr></thead><tbody><tr><td>6月25日至6月26日</td><td>大阪市内</td><td>新大阪</td><td>可带大箱</td><td>酒店寄存为主，新大阪站柜为补充</td><td>完成跳岛小包打包</td></tr><tr><td>6月27日</td><td>姬路、冈山</td><td>冈山</td><td>不建议带进姬路城</td><td>新大阪寄冈山，或姬路站寄存</td><td>姬路城游览时轻装</td></tr><tr><td>6月28日至6月29日</td><td>直岛、丰岛</td><td>直岛、冈山</td><td>不带大箱上岛</td><td>大箱留冈山或提前寄高松、广岛</td><td>岛上只带一晚小包</td></tr><tr><td>6月30日</td><td>小豆岛</td><td>高松</td><td>小包优先</td><td>土庄港或高松港周边寄存作为补充</td><td>潮汐日不要拖箱移动</td></tr><tr><td>7月2日</td><td>岛波海道</td><td>尾道</td><td>禁止带大箱骑行</td><td>大箱提前发广岛或博多</td><td>骑行日只带随身小包</td></tr><tr><td>7月3日</td><td>宫岛</td><td>博多</td><td>不要带大箱上宫岛</td><td>广岛站柜或直接送博多酒店</td><td>博多成为九州大本营</td></tr><tr><td>7月4日至7月5日</td><td>由布院、别府</td><td>由布院、博多</td><td>只带一晚小包</td><td>大箱留博多酒店或发博多</td><td>温泉镇不依赖当天转运</td></tr><tr><td>7月6日至7月7日</td><td>长崎、佐贺或熊本</td><td>长崎或博多</td><td>小包优先</td><td>若熊本模式，7月6日必须回博多</td><td>博多酒店寄存最稳</td></tr></tbody></table></div></div></section>
+<section class="section" id="checklist"><div class="wrap"><div class="section-head"><div><span class="chart-no">CHART 08</span><h2 class="section-title">最终确认清单</h2><p class="section-sub">勾选状态会保存在当前浏览器，用于出发前复核。</p></div><button class="ghost-btn" id="clearChecks">清空勾选</button></div><div class="checklist" id="checklistBox"></div></div></section>
+</main><footer class="footer"><div class="wrap foot-grid">
+<div><b>西国航路</b><p>WEST JAPAN TRAVEL ATLAS · NAUTICAL EDITION</p></div>
+<div class="foot-actions"><button id="shareBtn2" type="button">二维码分享</button><span id="netState"></span></div>
+</div></footer>
+<div class="qr-modal" id="qrModal" hidden><div class="qr-card"><h3>分享航路图</h3><div id="qrBox"></div><p id="qrNote"></p><button class="ghost-btn" id="qrClose" type="button">关闭</button></div></div>
+
+<script>
+const DAYS=[{"id": 0, "code": "抵达", "kicker": "6月25日（周四），夜宿：新大阪", "title": "落地大阪，前置准备日", "summary": "完成入境、交通卡、Pass兑换与补给采购，不提前消耗Setouchi Pass票期。", "tags": ["风险：低", "强度：低", "行李"], "tagkey": "low luggage setouchi", "timeline": [{"time": "12:00前", "text": "关西机场落地，自费乘HARUKA特急或机场交通到新大阪站。Setouchi Pass建议6月27日启用，不为机场段提前消耗票期。"}, {"time": "12:30至13:30", "text": "新大阪站JR窗口领取或兑换Setouchi Area Pass并划位。北九州Pass改到博多或福冈机场等JR九州窗口领取。"}, {"time": "14:00", "text": "入住新大阪站东口东横INN，寄存大件行李。"}, {"time": "14:30至17:00", "text": "采购跳岛补给，面包、运动饮料、高倍防晒霜、驱蚊液，并购买ICOCA卡。"}, {"time": "18:00", "text": "大阪晚餐，新大阪站附近吃大阪烧和章鱼烧，早休息。"}], "infos": [{"title": "交通说明", "text": "机场段自费，市内短距离用ICOCA或单买票。不要为了机场段提前启用Setouchi Pass。"}, {"title": "风险与备选", "text": "当天核心是恢复和准备，不要增加难波、环球影城等重项目。"}, {"title": "行李策略", "text": "大箱进酒店或新大阪站投币柜，后续跳岛只带小包。"}], "x": -5.0, "z": 0.75, "station": "大阪抵达", "landmark": "train", "region": "setouchi", "risk": "low", "luggage": "城市寄存"}, {"id": 1, "code": "D0", "kicker": "6月26日（周五），夜宿：新大阪", "title": "大阪一日游", "summary": "大阪城、道顿堀、心斋桥、梅田夜景，作为进入濑户内海前的城市缓冲日。", "tags": ["风险：低", "强度：中", "城市"], "tagkey": "city low setouchi", "timeline": [{"time": "09:00", "text": "新大阪站乘地铁到大阪城公园站。"}, {"time": "09:30至12:00", "text": "大阪城公园和天守阁游览，了解日本战国历史。"}, {"time": "12:30至14:00", "text": "道顿堀午餐，吃大阪烧、章鱼烧、蟹道乐。"}, {"time": "14:30至17:00", "text": "心斋桥和道顿堀逛街购物，打卡格力高广告牌。"}, {"time": "18:00", "text": "梅田蓝天大厦空中庭院展望台，看大阪夜景。"}, {"time": "20:00", "text": "返回新大阪酒店，早休息准备第二天开始濑户内海行程。"}], "infos": [{"title": "交通说明", "text": "大阪市内不使用Setouchi Pass，地铁和私铁用ICOCA更灵活。"}, {"title": "风险与备选", "text": "当天不要购物过量，第二天需要早起并开始长距离移动。"}, {"title": "行李策略", "text": "大箱继续留在新大阪酒店，夜间整理出跳岛小包。"}], "x": -4.65, "z": 0.62, "station": "大阪", "landmark": "city", "region": "setouchi", "risk": "low", "luggage": "酒店寄存"}, {"id": 2, "code": "D1", "kicker": "6月27日（周六），夜宿：冈山", "title": "大阪，姬路，冈山", "summary": "Setouchi Pass正式启用，先看姬路城，再推进到冈山。", "tags": ["风险：中", "强度：中", "早起", "行李", "Pass"], "tagkey": "early luggage medium pass setouchi", "timeline": [{"time": "07:30", "text": "新大阪站乘希望号NOZOMI 1号到姬路站，约45分钟，按实际划位车次执行。"}, {"time": "08:15至11:30", "text": "姬路城和好古园联游，天守阁9点开放，尽量赶第一批。"}, {"time": "11:30至12:30", "text": "姬路城广场附近午餐，吃特色御好烧或简餐。"}, {"time": "12:40", "text": "姬路站乘JR山阳本线或新干线方向到冈山站，按Pass和划位情况执行。"}, {"time": "13:40至16:30", "text": "冈山后乐园和冈山城联游，下午光线适合拍池塘倒影。"}, {"time": "18:00", "text": "冈山站周边晚餐，乌冬、鳗鱼饭或桃子甜品。"}], "infos": [{"title": "交通说明", "text": "这天是Setouchi Pass价值开始释放的第一天。新大阪到姬路，姬路到冈山都尽量走JR体系。"}, {"title": "风险与备选", "text": "如果姬路城排队过长，压缩好古园，优先保证下午到冈山。"}, {"title": "行李策略", "text": "不建议拖大箱进姬路城。可从新大阪寄往冈山酒店，或在姬路站寄存后再取。"}], "x": -3.75, "z": 0.42, "station": "姬路冈山", "landmark": "castle", "region": "setouchi", "risk": "medium", "luggage": "站内寄存"}, {"id": 3, "code": "D2", "kicker": "6月28日（周日），夜宿：直岛", "title": "冈山，宇野港，直岛", "summary": "直岛核心日，预约时间后移到10:30或11:00，给冈山、宇野、渡轮留出缓冲。", "tags": ["风险：高", "强度：中", "预约", "船班", "行李"], "tagkey": "ferry high luggage reserve setouchi", "timeline": [{"time": "08:00", "text": "冈山站乘JR宇野线到宇野港，约40分钟。"}, {"time": "09:00", "text": "两备渡轮普通船到直岛宫浦港，约20分钟，按当日船班执行。"}, {"time": "10:30至12:30", "text": "地中美术馆，优先10:30或11:00场，给冈山到宇野再到直岛留缓冲。"}, {"time": "13:30至16:30", "text": "李禹焕美术馆，黄南瓜，红南瓜，Benesse House Museum。若船班晚点，优先保地中美术馆。"}, {"time": "20:00", "text": "入住直岛住宿，只带一晚小包上岛。"}], "infos": [{"title": "交通说明", "text": "关键不是车程长，而是车、港口、船、预约票之间必须连上。"}, {"title": "风险与备选", "text": "如果早上晚点30分钟，10:00场会明显紧张，所以本版把预约建议后移。"}, {"title": "行李策略", "text": "大箱留冈山或提前发往高松、广岛。直岛只带小包。"}], "x": -2.72, "z": 0.05, "station": "直岛", "landmark": "pumpkin", "region": "setouchi", "risk": "high", "luggage": "随身小包"}, {"id": 4, "code": "D3", "kicker": "6月29日（周一），夜宿：冈山", "title": "直岛，丰岛，冈山", "summary": "丰岛是船班驱动日，先锁丰岛美术馆，再反推直岛出发时间。", "tags": ["风险：高", "强度：中高", "预约", "船班", "行李"], "tagkey": "ferry high luggage reserve setouchi", "timeline": [{"time": "08:30", "text": "还自行车，准备从直岛前往丰岛。"}, {"time": "09:30左右", "text": "按当日船班从直岛到丰岛家浦港，港口和班次出发前再次确认。"}, {"time": "10:30至12:00", "text": "丰岛美术馆，10:30或11:00场优先，先锁票再反推船班。"}, {"time": "13:30至14:30", "text": "心脏音博物馆，第二优先级。若船班或馆内移动紧张，可删除。"}, {"time": "16:00", "text": "唐柜港或家浦港乘船回宇野港，再回冈山站。"}, {"time": "18:00", "text": "冈山站周边晚餐，备前烧、鳗鱼饭或简餐。"}], "infos": [{"title": "交通说明", "text": "丰岛当天不应按景点想象顺序执行，而应按船班和预约票反推。"}, {"title": "风险与备选", "text": "一旦错过上午船班，两个馆都做完会很赶。优先保丰岛美术馆，心脏音博物馆可降级。"}, {"title": "行李策略", "text": "继续小包行动，大箱不要进入丰岛。"}], "x": -2.45, "z": 0.18, "station": "丰岛", "landmark": "museum", "region": "setouchi", "risk": "high", "luggage": "随身小包"}, {"id": 5, "code": "D4", "kicker": "6月30日（周二），夜宿：高松", "title": "冈山，小豆岛，高松", "summary": "小豆岛只保两个核心，橄榄公园和天使之路，其他景点只在不影响潮汐窗口时补充。", "tags": ["风险：高", "强度：中", "船班", "潮汐", "行李"], "tagkey": "ferry high luggage setouchi tide", "timeline": [{"time": "08:30", "text": "冈山站东口出发，乘巴士或出租车前往新冈山港。不要再把儿岛站写成主线。"}, {"time": "09:30", "text": "新冈山港到土庄港，按当日船班选择普通船。若高速船不在Pass覆盖内则自费。"}, {"time": "10:30至12:30", "text": "橄榄公园，主线景点。控制停留，不挤占天使之路窗口。"}, {"time": "下午潮汐窗口", "text": "天使之路，提前45至60分钟到场。当天具体退潮窗口出发前再次确认。"}, {"time": "16:30后", "text": "土庄港乘船到高松港。若天使之路窗口偏晚，则改坐更晚船或住土庄港周边。"}, {"time": "18:30", "text": "高松晚餐。补充景点只选一个，二十四瞳映画村、寒霞溪或酱油之乡。"}], "infos": [{"title": "交通说明", "text": "冈山到小豆岛的关键是新冈山港接驳，不是JR到儿岛站。"}, {"title": "风险与备选", "text": "如果橄榄公园停留过久，会挤占天使之路窗口。当天所有补充点都必须服从潮汐。"}, {"title": "行李策略", "text": "土庄港和高松港周边以小包行动为主，大箱最好提前送到高松或广岛。"}], "x": -2.08, "z": -0.36, "station": "小豆岛", "landmark": "olive", "region": "setouchi", "risk": "high", "luggage": "港口寄存"}, {"id": 6, "code": "D5", "kicker": "7月1日（周三），夜宿：松山", "title": "高松，松山", "summary": "四国城郭和温泉日，节奏比跳岛日更稳定。", "tags": ["风险：中", "强度：中", "Pass"], "tagkey": "medium pass setouchi", "timeline": [{"time": "08:00", "text": "高松站乘予赞线特急SHIOKAZE 3号到松山站，约2.5小时。"}, {"time": "10:30至12:00", "text": "松山城，乘缆车往返，俯瞰全景。"}, {"time": "14:30至16:30", "text": "道后温泉本馆，《千与千寻》汤屋原型体验。"}, {"time": "17:00", "text": "道后温泉街逛吃，温泉馒头、招财猫、柑橘制品。"}, {"time": "19:30", "text": "晚餐，鲷鱼火锅、柑橘酒或松山市区餐厅。"}], "infos": [{"title": "交通说明", "text": "特急长距离移动，建议提前划位。"}, {"title": "风险与备选", "text": "当天风险主要是高温和长时间步行。若到松山较晚，压缩松山城，保留道后温泉。"}, {"title": "行李策略", "text": "住松山则可带大箱，但道后温泉街游玩时先放酒店或车站柜。"}], "x": -1.2, "z": -0.92, "station": "松山", "landmark": "onsen_house", "region": "setouchi", "risk": "medium", "luggage": "酒店寄存"}, {"id": 7, "code": "D6", "kicker": "7月2日（周四），夜宿：尾道", "title": "松山，今治，岛波海道，尾道", "summary": "全程最受天气和体力影响的一天，骑行采用低、中、高三级目标。", "tags": ["风险：高", "强度：高", "骑行", "天气", "行李"], "tagkey": "cycling high luggage setouchi weather", "timeline": [{"time": "08:30", "text": "松山站乘JR予赞线到今治站，约1小时。"}, {"time": "10:00至13:30", "text": "岛波海道分级骑行，低强度今治到大岛，中强度今治到大岛到伯方岛，满状态再推进到大三岛。"}, {"time": "14:30", "text": "按实际骑行终点接巴士、船或公共交通前往尾道。雨、热、强风时立即采用低强度方案。"}, {"time": "16:30至18:00", "text": "尾道千光寺山和猫之细道。"}, {"time": "20:00", "text": "入住尾道站周边酒店。"}], "infos": [{"title": "交通说明", "text": "当天不追求固定终点，按体力和天气决定骑行终点，再接公共交通。"}, {"title": "风险与备选", "text": "如果早上天气已经不佳，不要硬骑。岛波海道成功标准是体验核心桥段，不是完成最长距离。"}, {"title": "行李策略", "text": "骑行日绝对不带大箱。大箱提前发往广岛或博多，或留松山、尾道站柜但要核对取回路径。"}], "x": -0.42, "z": -0.48, "station": "岛波海道", "landmark": "bridge", "region": "setouchi", "risk": "high", "luggage": "禁止大箱"}, {"id": 8, "code": "D7", "kicker": "7月3日（周五），夜宿：博多", "title": "尾道，广岛，宫岛，博多", "summary": "濑户内海收官日，宫岛后住博多，不再当天赶由布院。", "tags": ["风险：高", "强度：中高", "潮汐", "Pass", "行李"], "tagkey": "high luggage pass setouchi tide", "timeline": [{"time": "08:00", "text": "尾道站乘JR山阳本线到广岛站，约1.5小时。"}, {"time": "10:30", "text": "宫岛渡轮到宫岛，约15分钟。"}, {"time": "11:18至13:18", "text": "严岛神社，按涨潮窗口拍水上鸟居倒影。出发前48小时复核潮汐。"}, {"time": "13:00至14:00", "text": "宫岛表参道午餐，烤牡蛎和牡蛎饭。"}, {"time": "15:30至16:30", "text": "广岛站乘山阳新干线到博多站，按实际划位班次执行。"}, {"time": "18:00后", "text": "博多站周边入住或晚餐。当天不再接由布院，避免连锁风险。"}], "infos": [{"title": "交通说明", "text": "Setouchi Pass尽量覆盖到这天，尤其是广岛到博多的新干线。"}, {"title": "风险与备选", "text": "宫岛、新干线、由布院列车不能全部绑在同一天。本版已把由布院后移。"}, {"title": "行李策略", "text": "大箱不要上宫岛。可留广岛站柜或直接提前送博多酒店。到博多后作为九州大本营。"}], "x": 0.55, "z": 0.34, "station": "宫岛博多", "landmark": "torii", "region": "setouchi", "risk": "high", "luggage": "广岛或博多寄存"}, {"id": 9, "code": "D8", "kicker": "7月4日（周六），夜宿：由布院", "title": "博多，由布院", "summary": "九州段重新启动，尽最大努力坐由布院之森，但不让观光列车绑架行程。", "tags": ["风险：中", "强度：低至中", "预约", "Pass", "行李"], "tagkey": "kyushu luggage medium pass reserve", "timeline": [{"time": "08:00前", "text": "博多酒店寄存大箱或确认行李发往后续酒店，只带一晚小包去由布院。"}, {"time": "优先班次", "text": "尽力抢博多出发9:17、10:11或14:38的由布院之森。能坐上就把列车本身当成当天体验。"}, {"time": "替代方案", "text": "若由布院之森无票，改YUFU特急。若时间不合适，改经小仓、大分方向接入由布院或别府。"}, {"time": "12:00至15:00", "text": "抵达后游汤之坪街道、金鳞湖、由布院小镇，不再加别府地狱巡游。"}, {"time": "17:00后", "text": "入住由布院温泉旅馆，泡温泉，晚餐，恢复前半程疲劳。"}], "infos": [{"title": "交通说明", "text": "北九州Pass建议从这天启用，5日券覆盖7月4日至7月8日。"}, {"title": "风险与备选", "text": "由布院之森是高需求列车，抢不到也不算失败，替代车能保证行程成立。"}, {"title": "行李策略", "text": "大箱留博多，温泉镇只带一晚小包。"}], "x": 1.55, "z": 0.05, "station": "由布院", "landmark": "mountain", "region": "kyushu", "risk": "medium", "luggage": "博多留箱"}, {"id": 10, "code": "D9", "kicker": "7月5日（周日），夜宿：博多", "title": "由布院，别府，博多", "summary": "上午由布院补逛，下午别府地狱巡游，晚上回博多大本营。", "tags": ["风险：中", "强度：中", "Pass", "行李"], "tagkey": "kyushu luggage medium pass", "timeline": [{"time": "08:30至10:30", "text": "由布院补逛金鳞湖或汤之坪街道，节奏放慢。"}, {"time": "10:30至12:00", "text": "由布院到别府或大分方向转乘至别府，按实际JR班次执行。"}, {"time": "12:30至13:30", "text": "别府午餐，优先地狱蒸料理。"}, {"time": "14:00至17:00", "text": "别府地狱巡游，优先海地狱、血池地狱、龙卷地狱，时间不足只选2个。"}, {"time": "17:30至19:30", "text": "别府到博多，晚上住博多。这样后续长崎、熊本可选和离境都更稳。"}], "infos": [{"title": "交通说明", "text": "别府到博多优先用JR特急体系，回博多后让后续两天更灵活。"}, {"title": "风险与备选", "text": "别府不要贪多。地狱巡游只选代表性几个点，避免错过回博多列车。"}, {"title": "行李策略", "text": "大箱留博多酒店或提前寄博多，由布院和别府只带小包。"}], "x": 2.12, "z": -0.78, "station": "别府", "landmark": "steam", "region": "kyushu", "risk": "medium", "luggage": "博多留箱"}, {"id": 11, "code": "D10", "kicker": "7月6日（周一），夜宿：长崎或博多", "title": "博多，长崎", "summary": "军舰岛删除，改为长崎市内历史、港口和夜景线。若次日想去熊本，当晚回博多。", "tags": ["风险：中", "强度：中", "Pass", "可选"], "tagkey": "kyushu medium optional pass", "timeline": [{"time": "08:00至10:00", "text": "博多到武雄温泉再到长崎，按西九州新干线和特急接续执行。"}, {"time": "10:30至12:30", "text": "和平公园、原爆资料馆。这里作为长崎历史线的核心。"}, {"time": "12:30至13:30", "text": "长崎市区午餐，强棒面、土耳其饭或长崎蛋糕。"}, {"time": "14:00至16:30", "text": "出岛、新地中华街、大浦天主堂、哥拉巴园，按体力选2到3个点。"}, {"time": "17:30至20:00", "text": "长崎港区晚餐，天气好则上稻佐山夜景。"}, {"time": "住宿判断", "text": "默认住长崎一晚。若临时决定第二天去熊本，则改为当天回博多，不住长崎。"}], "infos": [{"title": "交通说明", "text": "长崎段以JR接续为主，市内景点靠电车、步行和短程交通补足。"}, {"title": "风险与备选", "text": "删除军舰岛后风险下降。唯一关键是是否为第二天熊本预留博多出发条件。"}, {"title": "行李策略", "text": "若住长崎可带小包住一晚，大箱继续留博多。若当晚回博多，则全天轻装。"}], "x": 2.48, "z": -0.62, "station": "长崎", "landmark": "church", "region": "kyushu", "risk": "medium", "luggage": "小包或博多留箱"}, {"id": 12, "code": "D11", "kicker": "7月7日（周二），夜宿：博多", "title": "默认佐贺/有田，熊本可选", "summary": "默认长崎经佐贺或有田回博多。若临时去熊本，则改成博多往返熊本，删除佐贺/有田。", "tags": ["风险：中", "强度：中", "可选", "Pass", "行李"], "tagkey": "kyushu luggage medium optional pass", "timeline": [{"time": "默认主线 08:30至10:30", "text": "长崎上午补市内轻量点，或直接离开长崎。"}, {"time": "11:00至14:00", "text": "经武雄温泉、佐贺或有田方向回博多。若想加陶瓷主题，选择有田短停，不再额外加远点。"}, {"time": "15:00至18:00", "text": "回博多，运河城、博多站、天神周边购物和晚餐。"}, {"time": "熊本可选模块", "text": "如果临时决定去熊本，建议不要从长崎硬绕熊本。调整为7月6日长崎当天往返博多，不住长崎，7月7日博多到熊本一日往返，游熊本城、樱之马场城彩苑、熊本熊广场，晚上回博多。代价是删除佐贺/有田，并牺牲长崎住宿和夜景从容度。"}, {"time": "判断标准", "text": "想轻松就走默认佐贺/有田。特别想补熊本，就接受7月6日回博多和7月7日熊本往返。"}], "infos": [{"title": "交通说明", "text": "熊本模式必须从博多出发更合理，不建议从长崎硬绕。"}, {"title": "风险与备选", "text": "当天不要把佐贺、有田和熊本都塞进去，只能二选一。"}, {"title": "行李策略", "text": "默认或熊本模式都以博多为夜宿，行李留博多最稳。"}], "x": 1.62, "z": -1.72, "station": "佐贺可选", "landmark": "train", "region": "kyushu", "risk": "medium", "luggage": "博多留箱"}, {"id": 13, "code": "D12", "kicker": "7月8日（周三），夜宿：离开", "title": "福冈市内缓冲与离开日", "summary": "离开日不安排远距离移动，太宰府或市内购物二选一，优先保证机场时间。", "tags": ["风险：低", "强度：低", "机场", "行李"], "tagkey": "airport kyushu low luggage", "timeline": [{"time": "09:00至12:00", "text": "太宰府天满宫，或改为博多站、天神购物。离开日不再安排远距离移动。"}, {"time": "12:00至13:00", "text": "午餐，梅枝饼、乌冬或博多拉面。"}, {"time": "13:30", "text": "回酒店或博多站取行李。"}, {"time": "15:00", "text": "博多站乘地铁或机场交通到福冈机场。按航班时间提前调整。"}, {"time": "16:00后", "text": "办理登机手续，结束旅程。"}], "infos": [{"title": "交通说明", "text": "福冈机场交通不被北九州JR Pass覆盖，按地铁或机场交通单买。"}, {"title": "风险与备选", "text": "如果航班较早，直接删除太宰府，只保博多站周边。"}, {"title": "行李策略", "text": "酒店寄存优先，离开前取回。"}], "x": 1.75, "z": 0.24, "station": "福冈离开", "landmark": "tower", "region": "kyushu", "risk": "low", "luggage": "酒店寄存"}];
+const OPTIONAL={"id": "kumamoto", "code": "支线", "kicker": "可选模块", "title": "熊本一日往返", "summary": "默认不进入主线。若临时决定去熊本，建议7月6日长崎当天返回博多，7月7日博多至熊本一日往返，删除佐贺或有田。", "x": 2.5, "z": -1.35, "station": "熊本可选", "landmark": "castle_dark", "region": "optional", "risk": "medium", "luggage": "博多留箱", "timeline": [{"time": "触发条件", "text": "特别想看熊本城，且愿意删除佐贺或有田，并把长崎住宿调整为当天回博多。"}, {"time": "执行方式", "text": "7月7日从博多坐九州新干线往返熊本，游熊本城、樱之马场城彩苑、熊本熊广场，晚上回博多。"}], "infos": [{"title": "代价", "text": "删除佐贺或有田，长崎夜景从容度下降。"}, {"title": "行李", "text": "大箱留博多，只带随身包。"}, {"title": "Pass", "text": "北九州JR Pass覆盖博多至熊本区间。"}]};
+const CHECKS=['购买Setouchi Area Pass，并确认6月27日至7月3日启用。','购买北九州JR Pass 5日券，原则上7月4日至7月8日启用。','预约地中美术馆，优先6月28日10:30或11:00场。','预约丰岛美术馆，优先6月29日10:30或11:00场。','确认直岛至丰岛、丰岛返程船班。','复核6月30日小豆岛天使之路潮汐窗口。','复核7月3日宫岛严岛神社潮汐窗口。','抢由布院之森指定席，同时准备YUFU或经大分替代方案。','前一晚按天气决定岛波海道骑行等级。','确认酒店是否接收宅急便，并准备小包跳岛。','若临时去熊本，提前把7月6日改为长崎当天返回博多。','7月8日按航班时间决定是否保留太宰府。'];
+const GEO_POINTS={
+  0:[135.5023,34.6937],1:[135.4983,34.7025],2:[134.2583,34.8151],3:[133.9957,34.4594],4:[134.1064,34.4889],5:[134.2556,34.4861],6:[132.7657,33.8392],7:[133.0324,34.0660],8:[131.3947,33.9310],9:[131.3611,33.2634],10:[131.4914,33.2795],11:[129.8737,32.7503],12:[130.2988,33.2494],13:[130.4017,33.5902], kumamoto:[130.7079,32.8031]
+};
+const WEST_MAP_BOUNDS={minLon:129.45,maxLon:135.88,minLat:32.50,maxLat:34.98,width:10.8,height:5.25};
+function projectGeo(lon,lat){
+  const x=((lon-(WEST_MAP_BOUNDS.minLon+WEST_MAP_BOUNDS.maxLon)/2)/(WEST_MAP_BOUNDS.maxLon-WEST_MAP_BOUNDS.minLon))*WEST_MAP_BOUNDS.width;
+  const z=(((WEST_MAP_BOUNDS.minLat+WEST_MAP_BOUNDS.maxLat)/2)-lat)/(WEST_MAP_BOUNDS.maxLat-WEST_MAP_BOUNDS.minLat)*WEST_MAP_BOUNDS.height;
+  return {x,z};
+}
+function configureGeography(){
+  DAYS.forEach((d,idx)=>{const p=projectGeo(...GEO_POINTS[idx]); d.x=p.x; d.z=p.z;});
+  const o=projectGeo(...GEO_POINTS.kumamoto); OPTIONAL.x=o.x; OPTIONAL.z=o.z;
+}
+/* ───────── 西国航路 · UI 层 1：图标 / 发车牌 / 天气 / 面板 ───────── */
+let currentIndex=0, currentMode='route', kumamotoOn=false;
+const REDUCED=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function esc(s){return String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function riskLabel(r){return r==='high'?'高风险':r==='medium'?'中风险':'低风险'}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+
+/* 每站专属图标：线描 + 单点彩 */
+const IC=inner=>'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+inner+'</svg>';
+const ICONS={
+torii:IC('<path d="M11 17h42" stroke="#C9472B"/><path d="M15 26h34" stroke="#C9472B"/><path d="M20 26v23M44 26v23" stroke="#C9472B"/><path d="M32 17v9" stroke="#C9472B"/><path d="M12 55c7-3 13-4 20-4s13 1 20 4" opacity=".45"/>'),
+castle:IC('<path d="M17 52h30"/><path d="M21 52V42h22v10"/><path d="M25 42v-8h14v8"/><path d="M28 34v-6h8v6"/><path d="M18 42l14-4 14 4M23 34l9-3 9 3M27 28l5-2 5 2"/>'),
+castle_dark:IC('<path d="M17 50h30"/><path d="M21 50V40h22v10"/><path d="M25 40v-8h14v8"/><path d="M28 32v-6h8v6"/><path d="M18 40l14-4 14 4M23 32l9-3 9 3M27 26l5-2 5 2"/><path d="M13 57h38" stroke-dasharray="2 6" opacity=".6"/>'),
+peach:IC('<path d="M32 24c-9-7-20-1-18 9 1.5 8 9 15 18 19 9-4 16.5-11 18-19 2-10-9-16-18-9z" stroke="#C9472B"/><path d="M32 24c0-5 3-8 7-10"/><path d="M32 31v15" opacity=".35"/>'),
+pumpkin:IC('<ellipse cx="32" cy="38" rx="16" ry="12.5" stroke="#B8923E"/><path d="M25 27v23M39 27v23" stroke="#B8923E" opacity=".55"/><path d="M32 25v-7"/><circle cx="27" cy="36" r="1.6" fill="currentColor" stroke="none"/><circle cx="36.5" cy="41.5" r="1.6" fill="currentColor" stroke="none"/><circle cx="32" cy="33" r="1.6" fill="currentColor" stroke="none"/>'),
+museum:IC('<path d="M13 46c5-9 11-14 19-14s14 5 19 14z"/><path d="M11 46h42"/><path d="M22 52h20" opacity=".4"/>'),
+olive:IC('<path d="M32 52V30"/><path d="M32 37c-6 .5-11-2-14-7 6-2.5 11-1 14 3" stroke="#2E8B6A"/><path d="M32 31c6-1 10-5 11-11-6 0-10 3-11 7" stroke="#2E8B6A"/><circle cx="39" cy="45" r="3.4" stroke="#B8923E"/>'),
+harbor:IC('<circle cx="32" cy="15" r="5"/><path d="M32 20v30"/><path d="M14 36c2 9 9 14 18 14s16-5 18-14"/><path d="M24 30h16"/>'),
+onsen_house:IC('<path d="M17 51V35l15-11 15 11v16z"/><path d="M14 51h36"/><path d="M27 17c1-3 3-3.5 3-7M37 17c1-3 3-3.5 3-7" stroke="#7FB3C8"/>'),
+bridge:IC('<path d="M10 44h44"/><path d="M21 44V22M43 44V22"/><path d="M21 22c8 6 9 14 11 22M43 22c-8 6-9 14-11 22" opacity=".5"/>'),
+bike:IC('<circle cx="19" cy="44" r="8.5"/><circle cx="45" cy="44" r="8.5"/><path d="M19 44l8-15h11M27 29h-7M38 29l7 15M27 29l5 15h13"/>'),
+momiji:IC('<path d="M32 14l2.6 7 6.8-4-2.4 7.6 8 .4-6.4 5 6.6 4.6-8.6 1.4 3 7.6-7.6-4.2L32 50l-2-10.6-7.6 4.2 3-7.6-8.6-1.4 6.6-4.6-6.4-5 8-.4-2.4-7.6 6.8 4z" stroke="#C9472B" stroke-width="3"/><path d="M32 50v8" stroke="#C9472B"/>'),
+train:IC('<path d="M12 41c1-9 8-15 18-15h11c8 0 12 6 13 15z"/><path d="M10 41h44"/><path d="M17 33h15" stroke="#7FB3C8"/><circle cx="21" cy="48" r="3.2"/><circle cx="43" cy="48" r="3.2"/>'),
+mountain:IC('<path d="M11 48l13-21 6 9 8-14 15 26z"/><path d="M28 33l3-5 3 5" opacity=".5"/><path d="M43 16c1-3 3-3.5 3-7" stroke="#7FB3C8"/>'),
+steam:IC('<path d="M16 50c4-2.5 9-3.5 16-3.5s12 1 16 3.5"/><path d="M22 38c2-6 5-7 5-13M32 40c2-6 5-7 5-13M42 38c2-6 5-7 5-13" stroke="#7FB3C8"/>'),
+church:IC('<path d="M22 52V33l10-8 10 8v19z"/><path d="M17 52h30"/><path d="M32 25v-9M27.5 19.5h9"/>'),
+tower:IC('<path d="M26 52l6-38 6 38z"/><path d="M22 52h20"/><path d="M28.5 36h7M27 44h10" opacity=".45"/><circle cx="32" cy="12" r="2" fill="#C9472B" stroke="none"/>'),
+city:IC('<path d="M14 52V31h10v21M24 52V21h13v31M37 52V35h12v17"/><path d="M11 52h42"/><path d="M29 27h3M29 33h3M29 39h3" opacity=".45"/>')
+};
+function iconFor(t){return ICONS[t]||ICONS.train}
+function injectIcons(){document.querySelectorAll('.st-ico').forEach(el=>{el.innerHTML=iconFor(el.dataset.icon)})}
+
+/* 发车牌 */
+const BOARD=[
+{d:'抵达 · 6月25日 周四',main:'12:00 関西空港 → 新大阪',sub:'HARUKA 特急 · 机场段自费 · PASS 暂不启用'},
+{d:'D0 · 6月26日 周五',main:'09:00 新大阪 → 大阪城公園',sub:'OSAKA METRO · 大阪缓冲日 · ICOCA'},
+{d:'D1 · 6月27日 周六',main:'07:30 新大阪 → 姫路',sub:'NOZOMI 1 · SETOUCHI PASS DAY 1 · 姬路城首批入场'},
+{d:'D2 · 6月28日 周日',main:'08:00 岡山 → 宇野港',sub:'JR 宇野线 + 渡轮 · 直岛 · 地中美术馆预约日'},
+{d:'D3 · 6月29日 周一',main:'08:30 直島 → 豊島',sub:'高速船 · 丰岛美术馆 · 夜返冈山'},
+{d:'D4 · 6月30日 周二',main:'08:30 新岡山港 → 土庄港',sub:'FERRY · 小豆岛 · 天使之路潮汐窗'},
+{d:'D5 · 7月1日 周三',main:'08:00 高松 → 松山',sub:'特急 SHIOKAZE 3 · 约2.5小时 · 道后温泉'},
+{d:'D6 · 7月2日 周四',main:'08:30 松山 → 今治',sub:'JR 予赞线 · 岛波海道骑行 · 三级目标制'},
+{d:'D7 · 7月3日 周五',main:'08:00 尾道 → 広島 → 宮島',sub:'山阳本线 + 渡轮 · 潮汐窗 · 夜抵博多'},
+{d:'D8 · 7月4日 周六',main:'09:17 博多 → 由布院',sub:'ゆふいんの森 尽力预约 · 北九州 PASS DAY 1'},
+{d:'D9 · 7月5日 周日',main:'10:30 由布院 → 別府',sub:'JR 久大本线 · 地狱巡礼 · 夜返博多'},
+{d:'D10 · 7月6日 周一',main:'08:00 博多 → 長崎',sub:'西九州新干线 KAMOME · 武雄温泉接续'},
+{d:'D11 · 7月7日 周二',main:'10:00 長崎 → 博多',sub:'默认主线 · 佐贺/有田可选 · 熊本可切换'},
+{d:'D12 · 7月8日 周三',main:'09:00 博多 → 太宰府',sub:'离开日 · 按航班决定 · FUK 福冈机场'}
+];
+let boardIdx=0,boardTimer=null;
+function setBoard(i,animate){
+  boardIdx=(i+BOARD.length)%BOARD.length;
+  const b=BOARD[boardIdx];
+  const day=document.getElementById('boardDay'),main=document.getElementById('boardMain'),sub=document.getElementById('boardSub');
+  if(!day)return;
+  day.textContent=b.d; sub.textContent=b.sub;
+  const anim=animate&&!REDUCED;
+  main.innerHTML=[...b.main].map((ch,k)=>ch===' '?'<span class="fc gap"></span>':'<span class="fc'+(anim?' tick':'')+'" style="animation-delay:'+(k*26)+'ms">'+esc(ch)+'</span>').join('');
+  document.querySelectorAll('.bdot').forEach((d,k)=>d.classList.toggle('on',k===boardIdx));
+}
+function restartBoardTimer(){clearInterval(boardTimer);boardTimer=setInterval(()=>setBoard(boardIdx+1,true),6000)}
+function initBoard(){
+  const dots=document.getElementById('boardDots'),el=document.getElementById('departureBoard');
+  if(!dots||!el)return;
+  dots.innerHTML=BOARD.map(()=>'<span class="bdot"></span>').join('');
+  setBoard(0,false);
+  el.addEventListener('click',()=>{setBoard(boardIdx+1,true);restartBoardTimer()});
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setBoard(boardIdx+1,true);restartBoardTimer()}});
+  restartBoardTimer();
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)clearInterval(boardTimer);else restartBoardTimer()});
+}
+
+/* 天气：Open-Meteo 免密钥，14 站逐日预报 */
+let WEATHER=null,WEATHER_STATE='pending';
+function tripDateStr(i){return new Date(Date.UTC(2026,5,25)+i*86400000).toISOString().slice(0,10)}
+const WX_G={
+sun:{label:'晴',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#B8923E" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2.4M12 18.6V21M3 12h2.4M18.6 12H21M5.4 5.4L7 7M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6"/></svg>'},
+cloud:{label:'多云',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#6E7E89" stroke-width="2" aria-hidden="true"><path d="M6.5 18a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 11.3 3.6 3.6 0 0 1 18.2 18z"/></svg>'},
+fog:{label:'雾',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#6E7E89" stroke-width="2" aria-hidden="true"><path d="M4 9h16M3 13h18M5 17h14"/></svg>'},
+rain:{label:'雨',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#52768B" stroke-width="2" aria-hidden="true"><path d="M6.5 14a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 7.3 3.6 3.6 0 0 1 18.2 14z"/><path d="M8 17l-1 3M13 17l-1 3M18 17l-1 3"/></svg>'},
+storm:{label:'雷雨',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#52768B" stroke-width="2" aria-hidden="true"><path d="M6.5 13a4.5 4.5 0 1 1 .9-8.9A6 6 0 0 1 19 6.3 3.6 3.6 0 0 1 18.2 13z"/><path d="M13 13l-3 5h4l-3 5" stroke="#C9472B"/></svg>'}
+};
+function wxGlyphFor(c){
+  if(c===0||c===1)return WX_G.sun;
+  if(c===2||c===3)return WX_G.cloud;
+  if(c===45||c===48)return WX_G.fog;
+  if(c>=95)return WX_G.storm;
+  return WX_G.rain;
+}
+function wxChip(i,id){
+  const w=WEATHER&&WEATHER[i];
+  const idattr=id?('id="'+id+'" '):'';
+  if(!w){
+    const msg=WEATHER_STATE==='err'?'离线 · 天气不可用':WEATHER_STATE==='ok'?'预报窗未开 · 出发前16天内更新':'天气载入中…';
+    return '<span '+idattr+'class="wx na">'+msg+'</span>';
+  }
+  const g=wxGlyphFor(w.code);
+  const pp=(w.pp==null)?'':' · 降水'+Math.round(w.pp)+'%';
+  return '<span '+idattr+'class="wx">'+g.svg+g.label+' '+Math.round(w.tmin)+'–'+Math.round(w.tmax)+'°'+pp+'</span>';
+}
+function paintAllWeather(){
+  DAYS.forEach(d=>{
+    const el=document.getElementById('wx-'+d.id);
+    if(el){const t=document.createElement('template');t.innerHTML=wxChip(d.id,'wx-'+d.id);el.replaceWith(t.content.firstChild)}
+  });
+  const row=document.getElementById('panelWeather');
+  if(row&&currentIndex!=='kumamoto')row.innerHTML=wxChip(currentIndex);
+}
+async function initWeather(){
+  if(!window.fetch){WEATHER_STATE='err';paintAllWeather();return}
+  try{
+    const lats=DAYS.map((d,i)=>GEO_POINTS[i][1].toFixed(3)).join(',');
+    const lons=DAYS.map((d,i)=>GEO_POINTS[i][0].toFixed(3)).join(',');
+    const url='https://api.open-meteo.com/v1/forecast?latitude='+lats+'&longitude='+lons+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=16';
+    const res=await fetch(url);
+    if(!res.ok)throw 0;
+    const data=await res.json();
+    const arr=Array.isArray(data)?data:[data];
+    WEATHER=DAYS.map((d,i)=>{
+      const loc=arr[i]||arr[0];
+      if(!loc||!loc.daily)return null;
+      const idx=loc.daily.time.indexOf(tripDateStr(i));
+      if(idx<0)return null;
+      const v=k=>loc.daily[k]?loc.daily[k][idx]:null;
+      const w={code:v('weather_code'),tmax:v('temperature_2m_max'),tmin:v('temperature_2m_min'),pp:v('precipitation_probability_max')};
+      return (w.tmax==null)?null:w;
+    });
+    WEATHER_STATE='ok';
+  }catch(e){WEATHER_STATE='err'}
+  paintAllWeather();
+}
+
+/* 面板渲染 */
+function infoHTML(info){if(!info)return '<div class="info-card"><b>说明</b><p>暂无补充。</p></div>';return '<div class="info-card"><b>'+esc(info.title)+'</b><p>'+esc(info.text)+'</p></div>'}
+function updatePanelVisual(d){
+  const badge=document.getElementById('panelLandmarkBadge');if(badge)badge.innerHTML=iconFor(d.landmark);
+  const title=document.getElementById('panelLandmarkTitle');if(title)title.textContent=d.station||d.title||'西日本航路';
+  const text=document.getElementById('panelLandmarkText');if(text)text.textContent=(d.region==='kyushu'?'九州段':d.region==='optional'?'可选支线':'濑户内海段')+' · '+riskLabel(d.risk)+' · '+(d.luggage||'轻装执行');
+}
+function renderPanel(item){
+  const d=item||DAYS[0];
+  document.getElementById('panelKicker').textContent=d.kicker||'';
+  document.getElementById('panelTitle').textContent=(d.code?d.code+'｜':'')+d.title;
+  document.getElementById('panelSummary').textContent=d.summary||'';
+  const badges=[riskLabel(d.risk),d.region==='kyushu'?'九州段':d.region==='optional'?'可选支线':'濑户内海段',d.luggage||'行李策略'];
+  document.getElementById('panelBadges').innerHTML=badges.map(b=>'<span class="badge '+(d.risk==='high'?'high':d.region==='kyushu'?'kyushu':d.region==='optional'?'optional':d.risk==='low'?'low':'')+'">'+esc(b)+'</span>').join('');
+  const wxrow=document.getElementById('panelWeather');
+  if(wxrow)wxrow.innerHTML=(d.id!==undefined)?wxChip(d.id):'<span class="wx na">可选支线 · 现场决策日</span>';
+  document.getElementById('tab-timeline').innerHTML=(d.timeline||[]).map(t=>'<div class="time-item"><b>'+esc(t.time)+'</b><span>'+esc(t.text)+'</span></div>').join('');
+  const infos=d.infos||[];
+  const byTitle=name=>infos.find(x=>x.title.includes(name))||null;
+  document.getElementById('tab-transport').innerHTML=infoHTML(byTitle('交通')||infos[0]);
+  document.getElementById('tab-risk').innerHTML=infoHTML(byTitle('风险')||infos[1]||{title:'风险提示',text:d.summary});
+  document.getElementById('tab-luggage').innerHTML=infoHTML(byTitle('行李')||{title:'行李策略',text:d.luggage||'轻装执行。'});
+  document.querySelectorAll('.rail-day').forEach(x=>x.classList.toggle('active',x.dataset.id===String(d.id)||(d.id===undefined&&x.dataset.id==='kumamoto')));
+  updatePanelVisual(d);
+}
+
+/* ───────── 西国航路 · 三维海图层 ───────── */
+let scene,camera,renderer,raycaster,pointerV;
+let nodeGroups=[],optionalGroup=null,optionalLine=null,activePulse=null;
+let water=null,contourTex=null,routeMeshes=[],routeFull=null,ferry=null,glowMats=[],pickMeshes=[];
+let mapClock=null,uTime=0,three_ok=false,glowTex=null;
+const COARSE=window.matchMedia&&matchMedia('(pointer: coarse)').matches;
+const PAL={setouchi:0x4C93B4,kyushu:0x2E8B6A,risk:0xC9472B,optional:0x6E7E89,gold:0xB8923E,mist:0x7FB3C8};
+const orbit={theta:-0.18,phi:0.92,radius:10.3,target:null,home:{theta:-0.18,phi:0.92,radius:10.3}};
+let flight=null;
+const tweens=[];
+const easeOut=p=>1-Math.pow(1-p,3);
+function tween(dur,fn,done){tweens.push({t0:performance.now(),dur,fn,done})}
+function runTweens(now){for(let i=tweens.length-1;i>=0;i--){const t=tweens[i];const p=Math.min(1,(now-t.t0)/t.dur);t.fn(p);if(p>=1){tweens.splice(i,1);if(t.done)t.done()}}}
+
+function initThree(){
+  if(!window.THREE){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';return}
+  three_ok=true;
+  const canvas=document.getElementById('atlasCanvas');
+  renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,COARSE?1.5:1.8));
+  renderer.shadowMap.enabled=!COARSE;
+  if(!COARSE)renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x0A1C2E,1);
+  scene=new THREE.Scene();
+  scene.fog=new THREE.Fog(0x0A1C2E,12,30);
+  camera=new THREE.PerspectiveCamera(38,16/9,.1,120);
+  orbit.target=new THREE.Vector3(0,0,0);
+  raycaster=new THREE.Raycaster();pointerV=new THREE.Vector2();
+  scene.add(new THREE.HemisphereLight(0xBFD9E8,0x0A1C2E,.95));
+  const dir=new THREE.DirectionalLight(0xFFEFD8,1.7);
+  dir.position.set(-6,9.5,4.5);
+  if(!COARSE){dir.castShadow=true;dir.shadow.mapSize.set(1024,1024);dir.shadow.camera.left=-8;dir.shadow.camera.right=8;dir.shadow.camera.top=6;dir.shadow.camera.bottom=-6;dir.shadow.camera.far=30}
+  scene.add(dir);
+  scene.add(new THREE.AmbientLight(0x27445C,.55));
+  buildWater();buildContours();buildLand();buildRoutes();buildLabels();buildNodes();
+  activePulse=new THREE.Mesh(new THREE.TorusGeometry(.23,.02,12,60),new THREE.MeshBasicMaterial({color:0xF4EEE1,transparent:true,opacity:.85}));
+  activePulse.rotation.x=Math.PI/2;scene.add(activePulse);
+  bindControls(canvas);
+  window.addEventListener('resize',resizeMap);resizeMap();
+  applyOrbit();
+  mapClock=new THREE.Clock();
+  selectDay(0);
+  startRouteDrawIn();
+  animate();
+}
+
+/* 等深线呼吸海面 */
+function buildWater(){
+  const seg=COARSE?[110,64]:[170,100];
+  const geo=new THREE.PlaneGeometry(28,16,seg[0],seg[1]);
+  const mat=new THREE.ShaderMaterial({
+    uniforms:{uT:{value:0},cDeep:{value:new THREE.Color(0x0C2336)},cCrest:{value:new THREE.Color(0x2C5874)},cMist:{value:new THREE.Color(0x7FB3C8)},fogColor:{value:new THREE.Color(0x0A1C2E)},fogNear:{value:12},fogFar:{value:30}},
+    vertexShader:'uniform float uT;varying float vW;varying vec3 vP;void main(){vec3 p=position;float w=sin(p.x*1.15+uT*.85)*.05+sin(p.y*1.85-uT*.62)*.042+sin((p.x+p.y)*3.0+uT*1.35)*.02;p.z+=w;vW=w;vec4 wp=modelMatrix*vec4(p,1.);vP=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}',
+    fragmentShader:'uniform vec3 cDeep,cCrest,cMist,fogColor;uniform float uT,fogNear,fogFar;varying float vW;varying vec3 vP;void main(){vec3 col=mix(cDeep,cCrest,smoothstep(-.07,.1,vW));float sp=pow(max(0.,sin(vP.x*14.+uT*1.7)*sin(vP.z*11.-uT*1.3)),22.)*.35;col+=cMist*sp;float d=distance(vP,cameraPosition);col=mix(col,fogColor,smoothstep(fogNear,fogFar,d));gl_FragColor=vec4(col,1.);}'
+  });
+  water=new THREE.Mesh(geo,mat);
+  water.rotation.x=-Math.PI/2;water.position.y=-.12;scene.add(water);
+}
+function buildContours(){
+  const c=document.createElement('canvas');c.width=1024;c.height=600;
+  const x=c.getContext('2d');
+  x.strokeStyle='rgba(127,179,200,.13)';x.lineWidth=1.2;
+  [[300,360],[640,300],[850,430],[170,150]].forEach(ct=>{
+    for(let r=42;r<300;r+=34){
+      x.beginPath();
+      for(let a=0;a<=Math.PI*2+.19;a+=.18){
+        const rr=r+Math.sin(a*3+ct[0])*7+Math.cos(a*5+ct[1])*5;
+        const px=ct[0]+Math.cos(a)*rr,py=ct[1]+Math.sin(a)*rr*.72;
+        if(a===0)x.moveTo(px,py);else x.lineTo(px,py);
+      }
+      x.stroke();
+    }
+  });
+  contourTex=new THREE.CanvasTexture(c);
+  contourTex.wrapS=contourTex.wrapT=THREE.RepeatWrapping;
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(28,16),new THREE.MeshBasicMaterial({map:contourTex,transparent:true,opacity:.5,depthWrite:false}));
+  m.rotation.x=-Math.PI/2;m.position.y=-.10;scene.add(m);
+}
+
+/* 暖纸地形（真实海岸折线投影） */
+function addGeoLand(coords,color){
+  const pts2=coords.map(c=>{const p=projectGeo(c[0],c[1]);return p});
+  const shape=new THREE.Shape(pts2.map(p=>new THREE.Vector2(p.x,-p.z)));
+  const geo=new THREE.ExtrudeGeometry(shape,{depth:.13,bevelEnabled:false});
+  const mat=new THREE.MeshStandardMaterial({color,roughness:.85,metalness:.02});
+  const m=new THREE.Mesh(geo,mat);
+  m.rotation.x=-Math.PI/2;m.position.y=.02;
+  m.receiveShadow=!COARSE;m.castShadow=!COARSE;
+  scene.add(m);
+  const line=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts2.map(p=>new THREE.Vector3(p.x,.17,p.z))),new THREE.LineBasicMaterial({color:0x7FB3C8,transparent:true,opacity:.5}));
+  scene.add(line);
+}
+function addGeoIsland(lon,lat,r){
+  const p=projectGeo(lon,lat);
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(r*1.18,r*1.04,.1,32),new THREE.MeshStandardMaterial({color:0xE6D9BC,roughness:.85}));
+  m.position.set(p.x,.12,p.z);m.castShadow=!COARSE;scene.add(m);
+}
+function buildLand(){
+  addGeoLand([[135.85,34.84],[135.62,34.76],[135.25,34.57],[134.77,34.55],[134.33,34.70],[133.82,34.75],[133.42,34.70],[132.98,34.53],[132.43,34.41],[131.93,34.27],[131.54,34.20],[131.47,34.08],[131.74,34.02],[132.16,34.06],[132.74,34.10],[133.31,34.18],[133.93,34.18],[134.54,34.18],[135.05,34.21],[135.44,34.34],[135.74,34.56]],0xEADFC6);
+  addGeoLand([[134.75,34.31],[134.37,34.28],[133.92,34.22],[133.49,34.13],[133.03,33.96],[132.74,33.78],[132.77,33.62],[133.08,33.57],[133.55,33.58],[134.00,33.65],[134.38,33.78],[134.68,34.03]],0xE2D5B6);
+  addGeoLand([[131.42,33.86],[131.00,33.80],[130.58,33.74],[130.18,33.55],[129.92,33.31],[129.86,33.02],[130.08,32.79],[130.48,32.68],[130.88,32.71],[131.12,32.91],[131.29,33.18],[131.42,33.45]],0xDFD0B0);
+  addGeoLand([[134.96,34.33],[134.83,34.28],[134.73,34.17],[134.77,34.08],[134.89,34.09],[135.01,34.19]],0xE2D5B6);
+  addGeoIsland(133.9957,34.4594,.17);addGeoIsland(134.1064,34.4889,.12);addGeoIsland(134.2556,34.4861,.19);addGeoIsland(132.3199,34.2959,.12);
+}
+
+/* 发光航路 + 巡航渡轮光点 */
+function mkTube(points,color){
+  const curve=new THREE.CatmullRomCurve3(points,false,'catmullrom',.35);
+  const segs=Math.max(60,points.length*26);
+  const geo=new THREE.TubeGeometry(curve,segs,.034,10,false);
+  const mat=new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.6,roughness:.35,metalness:.1,transparent:true,opacity:.95});
+  const mesh=new THREE.Mesh(geo,mat);
+  mesh.userData.totalIndex=geo.index.count;
+  geo.setDrawRange(0,0);
+  scene.add(mesh);routeMeshes.push(mesh);
+  return mesh;
+}
+function makeGlowSprite(color,scale,opacity){
+  if(!glowTex){
+    const c=document.createElement('canvas');c.width=c.height=64;
+    const x=c.getContext('2d');
+    const g=x.createRadialGradient(32,32,2,32,32,30);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.4,'rgba(255,255,255,.45)');g.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=g;x.fillRect(0,0,64,64);
+    glowTex=new THREE.CanvasTexture(c);
+  }
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color,transparent:true,opacity,blending:THREE.AdditiveBlending,depthWrite:false}));
+  s.scale.setScalar(scale);
+  return s;
+}
+function buildRoutes(){
+  const pts=DAYS.map(d=>new THREE.Vector3(d.x,.24,d.z));
+  routeFull=new THREE.CatmullRomCurve3(pts,false,'catmullrom',.35);
+  mkTube(pts.slice(0,9),PAL.mist);
+  mkTube(pts.slice(8),PAL.kyushu);
+  ferry=makeGlowSprite(0xF4EEE1,.42,.85);
+  scene.add(ferry);
+  optionalLine=makeOptionalLine();optionalLine.visible=false;scene.add(optionalLine);
+}
+function makeOptionalLine(){
+  const start=projectGeo(130.40,33.59);
+  const pts=[new THREE.Vector3(start.x,.24,start.z),new THREE.Vector3(OPTIONAL.x,.24,OPTIONAL.z)];
+  const curve=new THREE.CatmullRomCurve3(pts);
+  const geo=new THREE.TubeGeometry(curve,60,.018,8,false);
+  return new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0x6E7E89,transparent:true,opacity:.55}));
+}
+function startRouteDrawIn(){
+  const reset=()=>routeMeshes.forEach(m=>m.geometry.setDrawRange(0,Infinity));
+  if(REDUCED||!('IntersectionObserver' in window)){reset();return}
+  const map=document.querySelector('.atlas-map');
+  const draw=(i,done)=>{
+    const m=routeMeshes[i];
+    if(!m){if(done)done();return}
+    const total=m.userData.totalIndex;
+    tween(1700,p=>m.geometry.setDrawRange(0,Math.floor(total*easeOut(p))),done);
+  };
+  const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){io.disconnect();draw(0,()=>draw(1))}},{threshold:.25});
+  io.observe(map);
+}
+
+/* 区域文字 / 节点标签 */
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function regionLabelSprite(text){
+  const c=document.createElement('canvas');c.width=512;c.height=80;
+  const x=c.getContext('2d');
+  x.font='600 30px "IBM Plex Mono","Noto Sans SC",monospace';
+  x.fillStyle='rgba(127,179,200,.85)';x.textBaseline='middle';
+  const chars=Array.from(text),lsp=14;
+  let w=0;chars.forEach(ch=>{w+=x.measureText(ch).width+lsp});
+  let cx=256-w/2;
+  chars.forEach(ch=>{const cw=x.measureText(ch).width;x.fillText(ch,cx,42);cx+=cw+lsp});
+  const tex=new THREE.CanvasTexture(c);
+  return new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,opacity:.9,depthWrite:false}));
+}
+function buildLabels(){
+  [['关西 · 山阳',135.15,34.88],['濑户内海',133.55,34.05],['四国',133.45,33.50],['北九州',130.55,33.97]].forEach(it=>{
+    const s=regionLabelSprite(it[0]);
+    const p=projectGeo(it[1],it[2]);
+    s.position.set(p.x,.34,p.z);s.scale.set(1.9,.3,1);
+    scene.add(s);
+  });
+}
+function makeTextSprite(text,color,bg){
+  const c=document.createElement('canvas');c.width=320;c.height=108;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle=bg||'rgba(7,20,33,.82)';roundRect(ctx,24,20,272,64,18);ctx.fill();
+  ctx.strokeStyle='rgba(127,179,200,.45)';ctx.lineWidth=2;roundRect(ctx,24,20,272,64,18);ctx.stroke();
+  ctx.font='600 34px "IBM Plex Mono","Noto Sans SC",monospace';
+  ctx.fillStyle=color||'#EAF2F7';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(text,160,53);
+  const tex=new THREE.CanvasTexture(c);tex.anisotropy=4;
+  return new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
+}
+
+/* 微缩地标 */
+function pumpkinMaterial(){
+  if(window.__pumpkinMat)return window.__pumpkinMat;
+  const c=document.createElement('canvas');c.width=128;c.height=128;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#D9A531';ctx.fillRect(0,0,128,128);
+  ctx.fillStyle='#1B2630';
+  for(let i=0;i<28;i++){ctx.beginPath();ctx.arc((i*37)%128,(i*53)%128,4+(i%3),0,Math.PI*2);ctx.fill()}
+  const tex=new THREE.CanvasTexture(c);
+  window.__pumpkinMat=new THREE.MeshStandardMaterial({map:tex,roughness:.48});
+  return window.__pumpkinMat;
+}
+function addCable(group,x1,y1,z1,x2,y2,z2){
+  const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(x1,y1,z1),new THREE.Vector3((x1+x2)/2,(y1+y2)/2+.12,(z1+z2)/2),new THREE.Vector3(x2,y2,z2)]);
+  const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,12,.004,6,false),new THREE.MeshBasicMaterial({color:0xC9D5DB,transparent:true,opacity:.95}));
+  group.add(mesh);
+}
+function addSteam(group,x,y,z){
+  for(let i=0;i<3;i++){
+    const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(x+i*.035-.035,y,z),new THREE.Vector3(x+i*.035-.04,y+.10,z+.02),new THREE.Vector3(x+i*.035,y+.19,z-.02)]);
+    group.add(new THREE.Mesh(new THREE.TubeGeometry(curve,16,.007,6,false),new THREE.MeshBasicMaterial({color:0xFFFFFF,transparent:true,opacity:.45})));
+  }
+}
+function addLandmark(g,type){
+  const group=new THREE.Group();group.position.y=.12;g.add(group);
+  const white=new THREE.MeshStandardMaterial({color:0xFAF3E3,roughness:.58}),
+        roof=new THREE.MeshStandardMaterial({color:0x24384A,roughness:.46}),
+        red=new THREE.MeshStandardMaterial({color:0xC9472B,roughness:.48}),
+        green=new THREE.MeshStandardMaterial({color:0x2E8B6A,roughness:.62}),
+        stone=new THREE.MeshStandardMaterial({color:0xC2D3DB,roughness:.55});
+  const box=(w,h,d,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
+  const cyl=(r,h,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,24),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
+  const cone=(r,h,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.ConeGeometry(r,h,4),mat);m.position.set(x||0,y||0,z||0);m.castShadow=!COARSE;group.add(m);return m};
+  const sphere=(r,mat,x,y,z,sx,sy,sz)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r,20,16),mat);m.position.set(x||0,y||0,z||0);m.scale.set(sx||1,sy||1,sz||1);m.castShadow=!COARSE;group.add(m);return m};
+  if(type==='castle'||type==='castle_dark'){
+    const roofMat=type==='castle_dark'?new THREE.MeshStandardMaterial({color:0x1A222C,roughness:.42}):roof;
+    box(.34,.13,.24,white,0,.08,0);box(.25,.11,.19,white,0,.21,0);box(.18,.10,.14,white,0,.32,0);
+    box(.42,.03,.30,roofMat,0,.15,0);box(.31,.03,.23,roofMat,0,.27,0);box(.22,.03,.18,roofMat,0,.38,0);
+    box(.06,.06,.06,white,-.11,.13,.11);box(.06,.06,.06,white,.11,.13,.11);
+  }else if(type==='pumpkin'){
+    sphere(.18,pumpkinMaterial(),0,.20,0,1.15,.85,1.08);
+    cyl(.026,.12,new THREE.MeshStandardMaterial({color:0x2E8B6A,roughness:.6}),0,.34,0);
+  }else if(type==='museum'){
+    box(.42,.05,.24,white,0,.08,0);
+    const shell=new THREE.Mesh(new THREE.BoxGeometry(.28,.11,.18),new THREE.MeshStandardMaterial({color:0xFFFFFF,roughness:.35}));
+    shell.position.set(0,.16,0);shell.rotation.z=.18;shell.castShadow=!COARSE;group.add(shell);
+    box(.38,.018,.24,new THREE.MeshStandardMaterial({color:0xB7D9E3,transparent:true,opacity:.78}),0,.03,.1);
+  }else if(type==='olive'){
+    cyl(.028,.22,new THREE.MeshStandardMaterial({color:0x7A5F3E}),0,.12,0);
+    sphere(.09,green,-.09,.28,-.02,1.5,.78,1);
+    sphere(.09,green,.08,.32,.02,1.7,.82,1.1);
+    sphere(.08,new THREE.MeshStandardMaterial({color:0x3CAB7E,roughness:.6}),0,.23,.08,1.4,.7,1);
+    box(.35,.02,.08,new THREE.MeshStandardMaterial({color:0xEAD49A}),.08,.02,.14);
+  }else if(type==='onsen_house'){
+    box(.36,.12,.22,white,0,.09,0);box(.42,.04,.28,roof,0,.18,0);
+    box(.18,.06,.08,new THREE.MeshStandardMaterial({color:0xE4C8A0}),0,.06,.12);
+    cyl(.065,.022,new THREE.MeshStandardMaterial({color:0x5FA8C4,transparent:true,opacity:.88}),-.12,.02,.13);
+    addSteam(group,-.12,.11,.13);
+  }else if(type==='bridge'){
+    box(.78,.03,.05,new THREE.MeshStandardMaterial({color:0xD9E6ED}),0,.24,0);
+    box(.05,.36,.05,stone,-.28,.22,0);box(.05,.36,.05,stone,.28,.22,0);
+    addCable(group,-.28,.38,-.02,-.04,.24,-.02);addCable(group,.28,.38,-.02,.04,.24,-.02);
+    const wheel1=new THREE.Mesh(new THREE.TorusGeometry(.038,.006,8,16),new THREE.MeshBasicMaterial({color:0xFFF5DF}));
+    wheel1.rotation.y=Math.PI/2;wheel1.position.set(-.04,.10,.12);group.add(wheel1);
+    const wheel2=wheel1.clone();wheel2.position.x=.06;group.add(wheel2);
+  }else if(type==='torii'){
+    cyl(.12,.02,new THREE.MeshStandardMaterial({color:0x4C93B4,transparent:true,opacity:.75}),0,.02,0);
+    box(.08,.36,.06,red,-.12,.19,0);box(.08,.36,.06,red,.12,.19,0);
+    box(.42,.06,.08,red,0,.39,0);box(.50,.04,.09,red,0,.47,0);
+  }else if(type==='mountain'){
+    cone(.18,.32,new THREE.MeshStandardMaterial({color:0x467F62,roughness:.72}),-.08,.18,-.02);
+    cone(.22,.40,new THREE.MeshStandardMaterial({color:0x3D7457,roughness:.72}),.10,.22,.02);
+    cyl(.08,.024,new THREE.MeshStandardMaterial({color:0x5FA8C4}),.18,.02,.12);
+    addSteam(group,.18,.10,.12);
+  }else if(type==='steam'){
+    cyl(.18,.025,new THREE.MeshStandardMaterial({color:0x5FA8C4,transparent:true,opacity:.92}),0,.02,0);
+    addSteam(group,0,.11,0);addSteam(group,.08,.15,.04);
+    box(.12,.06,.10,white,-.16,.05,-.02);
+  }else if(type==='church'){
+    box(.28,.20,.20,white,0,.13,0);box(.08,.25,.08,white,0,.35,0);
+    box(.32,.04,.24,roof,0,.24,0);box(.04,.10,.04,white,0,.51,0);box(.10,.02,.02,white,0,.50,0);
+  }else if(type==='tower'){
+    cyl(.03,.44,new THREE.MeshStandardMaterial({color:0xD8E9EF}),0,.24,0);
+    const pod=new THREE.Mesh(new THREE.SphereGeometry(.10,18,14),new THREE.MeshStandardMaterial({color:0x7ED1E8,transparent:true,opacity:.95}));
+    pod.position.y=.48;pod.castShadow=!COARSE;group.add(pod);
+    box(.10,.02,.10,stone,0,.02,0);
+  }else if(type==='city'){
+    box(.14,.20,.14,stone,-.12,.10,0);box(.15,.32,.15,white,.02,.16,.02);
+    box(.10,.12,.10,new THREE.MeshStandardMaterial({color:0xE4C8A0}),.18,.06,.02);
+  }else if(type==='train'){
+    box(.40,.12,.16,new THREE.MeshStandardMaterial({color:0xEEF8FB}),0,.09,0);
+    box(.14,.10,.17,new THREE.MeshStandardMaterial({color:0x4C93B4}),.13,.10,0);
+    box(.48,.012,.20,new THREE.MeshStandardMaterial({color:0xE5D0A7}),0,.01,0);
+  }else{
+    cyl(.12,.24,white,0,.12,0);
+  }
+}
+
+/* 节点 */
+function nodeColor(d){
+  if(d.region==='optional')return PAL.optional;
+  if(d.risk==='high')return PAL.risk;
+  return d.region==='kyushu'?PAL.kyushu:PAL.setouchi;
+}
+function materialFor(d){
+  const c=nodeColor(d);
+  return new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.3,roughness:.34,metalness:.22});
+}
+function makeNode(d,index,optional){
+  const g=new THREE.Group();
+  g.position.set(d.x,.24,d.z);
+  g.userData={index:index,optional:!!optional};
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(.12,.18,.10,32),materialFor(d));
+  base.castShadow=!COARSE;g.add(base);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.16,.01,8,40),new THREE.MeshBasicMaterial({color:0xF4EEE1,transparent:true,opacity:.4}));
+  ring.rotation.x=Math.PI/2;ring.position.y=.055;g.add(ring);
+  const pick=new THREE.Mesh(new THREE.SphereGeometry(.34,12,12),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
+  pick.userData={index:index,optional:!!optional};
+  pickMeshes.push(pick);g.add(pick);
+  addLandmark(g,d.landmark);
+  if(d.risk==='high'&&!optional){
+    const gl=makeGlowSprite(PAL.risk,.95,.38);
+    gl.position.y=.14;g.add(gl);glowMats.push(gl.material);
+  }
+  const label=makeTextSprite(d.code,optional?'#C8CFDC':'#EAF2F7',optional?'rgba(58,66,84,.78)':'rgba(7,20,33,.82)');
+  label.position.set(0,.86,.02);label.scale.set(.52,.18,1);
+  g.add(label);
+  scene.add(g);
+  return g;
+}
+function buildNodes(){
+  DAYS.forEach((d,i)=>nodeGroups.push(makeNode(d,i,false)));
+  optionalGroup=makeNode(OPTIONAL,'kumamoto',true);
+  optionalGroup.visible=false;
+}
+function showOptional(v){
+  if(!three_ok)return;
+  if(optionalGroup)optionalGroup.visible=v;
+  if(optionalLine)optionalLine.visible=v;
+}
+
+/* 轨道控制：拖拽旋转 / 滚轮缩放 / 双指捏合 / 点击选站 */
+function applyOrbit(){
+  if(!camera)return;
+  const sp=Math.sin(orbit.phi);
+  camera.position.set(
+    orbit.target.x+orbit.radius*sp*Math.sin(orbit.theta),
+    orbit.target.y+orbit.radius*Math.cos(orbit.phi),
+    orbit.target.z+orbit.radius*sp*Math.cos(orbit.theta));
+  camera.lookAt(orbit.target);
+}
+function bindControls(canvas){
+  let dragging=false,moved=0,px=0,py=0;
+  const pointers=new Map();
+  const pinch={d:0,active:false};
+  canvas.addEventListener('pointerdown',e=>{
+    cancelFlight();
+    pointers.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pointers.size===1){dragging=true;moved=0;px=e.clientX;py=e.clientY;try{canvas.setPointerCapture(e.pointerId)}catch(err){}}
+    else if(pointers.size===2){
+      const a=Array.from(pointers.values());
+      pinch.active=true;pinch.d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
+    }
+  });
+  canvas.addEventListener('pointermove',e=>{
+    if(!pointers.has(e.pointerId))return;
+    pointers.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pinch.active&&pointers.size===2){
+      const a=Array.from(pointers.values());
+      const d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]);
+      if(d>0){orbit.radius=clamp(orbit.radius*(pinch.d/d),5.2,16);pinch.d=d;applyOrbit()}
+      return;
+    }
+    if(!dragging)return;
+    const dx=e.clientX-px,dy=e.clientY-py;
+    moved+=Math.abs(dx)+Math.abs(dy);
+    px=e.clientX;py=e.clientY;
+    orbit.theta-=dx*.0042;
+    orbit.phi=clamp(orbit.phi-dy*.003,.45,1.32);
+    applyOrbit();
+  });
+  const up=e=>{
+    pointers.delete(e.pointerId);
+    if(pointers.size<2)pinch.active=false;
+    if(dragging&&pointers.size===0){dragging=false;if(moved<7)pickAt(e,canvas)}
+  };
+  canvas.addEventListener('pointerup',up);
+  canvas.addEventListener('pointercancel',up);
+  canvas.addEventListener('wheel',e=>{
+    e.preventDefault();cancelFlight();
+    orbit.radius=clamp(orbit.radius*(1+e.deltaY*.0011),5.2,16);
+    applyOrbit();
+  },{passive:false});
+}
+function pickAt(e,canvas){
+  const r=canvas.getBoundingClientRect();
+  pointerV.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
+  raycaster.setFromCamera(pointerV,camera);
+  const vis=pickMeshes.filter(p=>p.parent&&p.parent.visible);
+  const hits=raycaster.intersectObjects(vis,false);
+  if(hits.length){
+    const u=hits[0].object.userData;
+    if(u.optional){kumamotoOn=true;syncKumamotoBtn();showOptional(true);selectOptional()}
+    else selectDay(u.index);
+  }
+}
+function syncOrbitFromCamera(){
+  const off=camera.position.clone().sub(orbit.target);
+  const len=Math.max(.001,off.length());
+  orbit.radius=clamp(len,5.2,16);
+  orbit.phi=clamp(Math.acos(clamp(off.y/len,-1,1)),.45,1.32);
+  orbit.theta=Math.atan2(off.x,off.z);
+  applyOrbit();
+}
+
+/* 选站 */
+function tweenScale(g,s){const s0=g.scale.x;tween(380,p=>g.scale.setScalar(s0+(s-s0)*easeOut(p)))}
+function tweenTarget(v){const f=orbit.target.clone();tween(750,p=>{orbit.target.lerpVectors(f,v,easeOut(p));applyOrbit()})}
+function selectDay(i){
+  currentIndex=i;
+  const d=DAYS[i];
+  renderPanel(d);
+  if(!three_ok)return;
+  if(activePulse)activePulse.position.set(d.x,.27,d.z);
+  nodeGroups.forEach((g,idx)=>tweenScale(g,idx===i?1.18:1));
+  if(optionalGroup)tweenScale(optionalGroup,1);
+  if(!flight)tweenTarget(new THREE.Vector3(d.x*.45,0,d.z*.45));
+  updateModeVisuals();
+}
+function selectOptional(){
+  currentIndex='kumamoto';
+  renderPanel(OPTIONAL);
+  if(!three_ok)return;
+  if(activePulse)activePulse.position.set(OPTIONAL.x,.27,OPTIONAL.z);
+  nodeGroups.forEach(g=>tweenScale(g,1));
+  if(optionalGroup)tweenScale(optionalGroup,1.18);
+  if(!flight)tweenTarget(new THREE.Vector3(OPTIONAL.x*.45,0,OPTIONAL.z*.45));
+  updateModeVisuals();
+}
+function selectDayLite(i){
+  currentIndex=i;
+  renderPanel(DAYS[i]);
+  if(activePulse)activePulse.position.set(DAYS[i].x,.27,DAYS[i].z);
+  nodeGroups.forEach((g,idx)=>g.scale.setScalar(idx===i?1.16:1));
+}
+function updateModeVisuals(){
+  if(!three_ok)return;
+  const all=nodeGroups.concat([optionalGroup]);
+  all.forEach((g,idx)=>{
+    if(!g)return;
+    const d=idx===nodeGroups.length?OPTIONAL:DAYS[idx];
+    const m=g.children[0].material;
+    let c=nodeColor(d);
+    if(currentMode==='risk'){c=d.risk==='high'?PAL.risk:d.risk==='medium'?PAL.gold:PAL.setouchi}
+    else if(currentMode==='luggage'){
+      const s=d.luggage||'';
+      c=s.includes('禁止')?PAL.risk:s.includes('寄存')?PAL.gold:s.includes('小包')?PAL.kyushu:PAL.mist;
+    }
+    m.color.setHex(c);m.emissive.setHex(c);
+  });
+  routeMeshes.forEach(m=>{m.material.opacity=currentMode==='route'?.95:.3});
+}
+
+/* 起航：低空巡航镜头 */
+function setPlayBtn(on){const b=document.getElementById('playRoute');if(b)b.textContent=on?'停航 · 任意操作可中断':'起航 · 播放旅程'}
+function showCaption(d){
+  const c=document.getElementById('flyCaption');if(!c)return;
+  c.querySelector('.fk').textContent=(d.code?d.code+' · ':'')+(d.kicker||'');
+  c.querySelector('.ft').textContent=d.title;
+  c.classList.add('show');
+}
+function hideCaption(){const c=document.getElementById('flyCaption');if(c)c.classList.remove('show')}
+function playRoute(){
+  if(!three_ok)return;
+  if(flight){cancelFlight();return}
+  if(REDUCED){stepTour();return}
+  const n=DAYS.length;
+  const camPts=DAYS.map((d,i)=>{
+    const ahead=DAYS[Math.min(n-1,i+1)];
+    const dir=new THREE.Vector3(ahead.x-d.x,0,ahead.z-d.z);
+    if(dir.lengthSq()<1e-4)dir.set(-1,0,0);
+    dir.normalize();
+    return new THREE.Vector3(d.x-dir.x*1.9,1.55+(i%2)*.25,d.z-dir.z*1.9+.95);
+  });
+  const lookPts=DAYS.map(d=>new THREE.Vector3(d.x,.25,d.z));
+  flight={
+    curve:new THREE.CatmullRomCurve3(camPts,false,'catmullrom',.3),
+    look:new THREE.CatmullRomCurve3(lookPts,false,'catmullrom',.3),
+    t0:performance.now(),dur:n*2500,lastStop:-1
+  };
+  setPlayBtn(true);
+}
+function updateFlight(now){
+  if(!flight)return;
+  const p=Math.min(1,(now-flight.t0)/flight.dur);
+  camera.position.copy(flight.curve.getPoint(p));
+  camera.lookAt(flight.look.getPoint(Math.min(1,p+.012)));
+  const stop=Math.min(DAYS.length-1,Math.floor(p*(DAYS.length-1)+.0001));
+  if(stop!==flight.lastStop){flight.lastStop=stop;showCaption(DAYS[stop]);selectDayLite(stop)}
+  if(p>=1)endFlight();
+}
+function endFlight(){
+  flight=null;setPlayBtn(false);
+  setTimeout(hideCaption,1500);
+  syncOrbitFromCamera();
+  resetCameraTween();
+}
+function cancelFlight(){
+  if(!flight)return;
+  flight=null;setPlayBtn(false);hideCaption();
+  syncOrbitFromCamera();
+}
+function stepTour(){
+  let k=0;
+  const iv=setInterval(()=>{
+    selectDay(k);showCaption(DAYS[k]);k++;
+    if(k>=DAYS.length){clearInterval(iv);setTimeout(hideCaption,1600)}
+  },1500);
+}
+function resetCamera(){cancelFlight();resetCameraTween()}
+function resetCameraTween(){
+  const f={theta:orbit.theta,phi:orbit.phi,radius:orbit.radius,t:orbit.target.clone()};
+  const h=orbit.home,zero=new THREE.Vector3(0,0,0);
+  tween(900,p=>{
+    const e=easeOut(p);
+    orbit.theta=f.theta+(h.theta-f.theta)*e;
+    orbit.phi=f.phi+(h.phi-f.phi)*e;
+    orbit.radius=f.radius+(h.radius-f.radius)*e;
+    orbit.target.lerpVectors(f.t,zero,e);
+    applyOrbit();
+  });
+}
+
+/* 尺寸与主循环 */
+function resizeMap(){
+  const map=document.querySelector('.atlas-map');
+  if(!map||!renderer)return;
+  const r=map.getBoundingClientRect();
+  renderer.setSize(r.width,Math.max(1,r.height),false);
+  camera.aspect=r.width/Math.max(1,r.height);
+  camera.updateProjectionMatrix();
+}
+function animate(now){
+  requestAnimationFrame(animate);
+  now=now||performance.now();
+  const dt=mapClock?mapClock.getDelta():.016;
+  uTime+=dt;
+  if(water)water.material.uniforms.uT.value=uTime;
+  if(contourTex){contourTex.offset.x=(uTime*.004)%1;contourTex.offset.y=(uTime*.0023)%1}
+  if(ferry&&routeFull){
+    const t=(uTime*.018)%1;
+    const p=routeFull.getPoint(t);
+    ferry.position.set(p.x,p.y+.05,p.z);
+    ferry.material.opacity=.55+Math.sin(uTime*3)*.2;
+  }
+  nodeGroups.forEach((g,i)=>{g.position.y=.24+Math.sin(uTime*1.3+i)*.012});
+  if(optionalGroup)optionalGroup.position.y=.24+Math.sin(uTime*1.3+7)*.012;
+  if(activePulse){activePulse.scale.setScalar(1+Math.sin(uTime*3.4)*.09);activePulse.material.opacity=.5+Math.sin(uTime*3.4)*.22}
+  glowMats.forEach((m,i)=>{m.opacity=.3+Math.sin(uTime*2.2+i)*.14});
+  runTweens(now);
+  updateFlight(now);
+  renderer.render(scene,camera);
+}
+
+/* ───────── 西国航路 · UI 层 2：日卡 / 清单 / 动效 / 分享 / 启动 ───────── */
+function renderRail(){
+  const rail=document.getElementById('dayRail');
+  rail.innerHTML=DAYS.map(d=>'<button class="rail-day" data-id="'+d.id+'">'+esc(d.code)+'</button>').join('')+'<button class="rail-day optional" data-id="kumamoto">熊本</button>';
+  rail.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{
+    if(btn.dataset.id==='kumamoto'){kumamotoOn=true;syncKumamotoBtn();showOptional(true);selectOptional()}
+    else selectDay(Number(btn.dataset.id));
+  }));
+}
+
+function stampName(d){let s=(d.station||'').replace('可选','').replace('抵达','').replace('离开','');if(s.length>3)s=s.slice(0,2);return s||'西国'}
+function stampDate(d){const m=(d.kicker||'').match(/(\d+月\d+日)/);return m?m[1]:'2026'}
+
+function renderDayList(){
+  const box=document.getElementById('dayList');
+  box.innerHTML=DAYS.map(d=>{
+    const cls=d.risk==='high'?'high':d.region==='kyushu'?'kyushu':'';
+    return '<article class="panel day-card '+cls+'" id="detail-'+d.id+'">'
+      +'<div class="day-stub"><span class="ico">'+iconFor(d.landmark)+'</span><span class="code">'+esc(d.code)+'</span><span class="seg">'+(d.region==='kyushu'?'KYUSHU LINE':'SETOUCHI LINE')+'</span></div>'
+      +'<div class="day-main"><button class="day-head" aria-expanded="false">'
+      +'<div class="day-title"><div class="panel-kicker">'+esc(d.kicker)+'</div><h3>'+esc(d.title)+'</h3><p>'+esc(d.summary)+'</p>'
+      +'<div class="day-meta"><span class="wx na" id="wx-'+d.id+'">天气载入中…</span>'+(d.tags||[]).slice(0,5).map(t=>'<span class="badge">'+esc(t)+'</span>').join('')+'</div></div>'
+      +'<div class="chev">⌄</div></button>'
+      +'<div class="day-body"><div class="day-tl">'+(d.timeline||[]).map(t=>'<div class="time-item"><b>'+esc(t.time)+'</b><span>'+esc(t.text)+'</span></div>').join('')+'</div>'
+      +'<div class="day-infos">'+(d.infos||[]).map(x=>'<div class="info-card"><b>'+esc(x.title)+'</b><p>'+esc(x.text)+'</p></div>').join('')+'</div></div></div>'
+      +'<div class="stamp">'+esc(stampName(d))+'<small>'+esc(stampDate(d))+'</small></div>'
+      +'</article>';
+  }).join('');
+  box.querySelectorAll('.day-head').forEach(btn=>btn.addEventListener('click',()=>{
+    const card=btn.closest('.day-card');
+    const open=card.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open?'true':'false');
+  }));
+}
+
+function renderChecklist(){
+  const key='jp-west-atlas-v2-checks';
+  let saved={};try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  const box=document.getElementById('checklistBox');
+  box.innerHTML=CHECKS.map((x,i)=>'<label class="check"><input type="checkbox" data-check="'+i+'" '+(saved[i]?'checked':'')+'><span>'+esc(x)+'</span></label>').join('');
+  box.querySelectorAll('input').forEach(cb=>cb.addEventListener('change',()=>{
+    saved[cb.dataset.check]=cb.checked;
+    try{localStorage.setItem(key,JSON.stringify(saved))}catch(e){}
+  }));
+  const clearBtn=document.getElementById('clearChecks');
+  if(clearBtn)clearBtn.onclick=()=>{try{localStorage.removeItem(key)}catch(e){}saved={};box.querySelectorAll('input').forEach(cb=>cb.checked=false)};
+}
+
+function activateTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.toggle('active',p.id==='tab-'+name));
+}
+function initTabsAndButtons(){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>activateTab(b.dataset.tab)));
+  const jump=document.getElementById('jumpDay');
+  if(jump)jump.addEventListener('click',()=>{
+    const id=currentIndex==='kumamoto'?12:currentIndex;
+    const el=document.getElementById('detail-'+id);
+    if(el){el.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'});el.classList.add('open');const st=el.querySelector('.stamp');if(st)st.classList.add('stamped')}
+  });
+  const openAll=document.getElementById('openAllNearby');
+  if(openAll)openAll.addEventListener('click',()=>document.querySelectorAll('.day-card').forEach(c=>{c.classList.add('open');const st=c.querySelector('.stamp');if(st)st.classList.add('stamped')}));
+  const collapse=document.getElementById('collapseAll');
+  if(collapse)collapse.addEventListener('click',()=>document.querySelectorAll('.day-card').forEach(c=>c.classList.remove('open')));
+  document.querySelectorAll('.mode-btn[data-mode]').forEach(b=>b.addEventListener('click',()=>{
+    currentMode=b.dataset.mode;
+    document.querySelectorAll('.mode-btn[data-mode]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    updateModeVisuals();
+  }));
+  const kt=document.getElementById('kumamotoToggle');
+  if(kt)kt.addEventListener('click',()=>{
+    kumamotoOn=!kumamotoOn;syncKumamotoBtn();showOptional(kumamotoOn);
+    if(kumamotoOn)selectOptional();else selectDay(Math.min(12,DAYS.length-1));
+  });
+  const pr=document.getElementById('playRoute');
+  if(pr)pr.addEventListener('click',playRoute);
+  const rc=document.getElementById('resetCamera');
+  if(rc)rc.addEventListener('click',resetCamera);
+}
+function syncKumamotoBtn(){const b=document.getElementById('kumamotoToggle');if(b)b.textContent=kumamotoOn?'熊本支线 ON':'熊本支线 OFF'}
+
+/* 滚动入场 + 印章 + 数字滚动 */
+function initReveals(){
+  const sel='.section-head,.overview-card,.decision,.risk-card,.pass-card,.day-card,.check,.table-wrap,.route';
+  const els=Array.from(document.querySelectorAll(sel));
+  els.forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=((i%5)*70)+'ms'});
+  if(!('IntersectionObserver' in window)||REDUCED){els.forEach(el=>{el.classList.add('in');const st=el.querySelector&&el.querySelector('.stamp');if(st)st.classList.add('stamped')});return}
+  const io=new IntersectionObserver(entries=>entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      const st=en.target.querySelector?en.target.querySelector('.stamp'):null;
+      if(st)setTimeout(()=>st.classList.add('stamped'),400);
+      io.unobserve(en.target);
+    }
+  }),{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(el=>io.observe(el));
+}
+function heroIn(){
+  ['.hero-copy','.board'].forEach((s,i)=>{
+    const el=document.querySelector(s);
+    if(el){el.classList.add('reveal');setTimeout(()=>el.classList.add('in'),130+i*200)}
+  });
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.dataset.count;
+    if(REDUCED){el.textContent=target;return}
+    const t0=performance.now(),dur=1100;
+    (function step(t){const p=Math.min(1,(t-t0)/dur);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)})(t0);
+  });
+}
+
+/* 平滑滚动 */
+function initLenis(){
+  if(!window.Lenis||REDUCED)return;
+  try{
+    const lenis=new Lenis({duration:1.05,smoothWheel:true});
+    document.documentElement.classList.add('lenis-on');
+    (function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(performance.now());
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+      const el=document.querySelector(a.getAttribute('href'));
+      if(el){e.preventDefault();lenis.scrollTo(el,{offset:-72})}
+    }));
+  }catch(e){}
+}
+
+/* 二维码分享 */
+function openQR(){
+  const m=document.getElementById('qrModal');if(!m)return;
+  m.hidden=false;
+  const box=document.getElementById('qrBox'),note=document.getElementById('qrNote');
+  box.innerHTML='';
+  const isHttp=/^https?:$/.test(location.protocol);
+  if(isHttp&&window.QRCode){
+    new QRCode(box,{text:location.href,width:196,height:196,colorDark:'#0A1C2E',colorLight:'#FBF7EC',correctLevel:QRCode.CorrectLevel.M});
+    note.textContent='手机扫码打开 · '+location.host;
+  }else if(!isHttp){
+    box.innerHTML='<span style="font-family:var(--mono);font-size:12px;color:var(--muted);padding:24px;display:block">本地文件模式</span>';
+    note.textContent='部署到 GitHub Pages 后，这里会生成可扫码访问的网址。部署步骤见 README。';
+  }else{
+    note.textContent='二维码组件未能加载，请联网刷新后重试。';
+  }
+}
+function initQR(){
+  ['shareBtn','shareBtn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.addEventListener('click',openQR)});
+  const m=document.getElementById('qrModal');
+  if(!m)return;
+  document.getElementById('qrClose').addEventListener('click',()=>m.hidden=true);
+  m.addEventListener('click',e=>{if(e.target===m)m.hidden=true});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden)m.hidden=true});
+}
+
+/* PWA 注册 + 联网状态 */
+function paintNet(){
+  const el=document.getElementById('netState');
+  if(el)el.textContent=(navigator.onLine?'ONLINE':'OFFLINE')+(window.__swReady?' · 离线缓存已就绪':'');
+}
+function initSW(){
+  if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+    addEventListener('load',()=>{
+      navigator.serviceWorker.register('./sw.js').then(()=>{window.__swReady=true;paintNet()}).catch(()=>{});
+    });
+  }
+  addEventListener('online',paintNet);addEventListener('offline',paintNet);
+}
+
+/* 启动序列 */
+configureGeography();
+injectIcons();initBoard();renderRail();renderDayList();renderChecklist();renderPanel(DAYS[0]);
+initTabsAndButtons();initReveals();heroIn();initLenis();initWeather();initQR();initSW();paintNet();
+(function bootThree(){
+  const go=()=>{try{initThree()}catch(err){const f=document.getElementById('fallbackMap');if(f)f.style.display='grid';if(window.console)console.error(err)}};
+  if(document.fonts&&document.fonts.ready){Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1300))]).then(go)}
+  else go();
+})();
+
+</script>
+</body>
+</html>

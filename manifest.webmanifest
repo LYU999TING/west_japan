@@ -1,0 +1,16 @@
+{
+  "name": "西国航路 · 日本西部14日航海图册",
+  "short_name": "西国航路",
+  "description": "濑户内海—北九州 14 日旅行航海图：立体海图、每日时刻线、逐站天气、风险与行李策略。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1C2E",
+  "theme_color": "#0A1C2E",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
